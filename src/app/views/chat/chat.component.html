@@ -9,8 +9,8 @@
             </div>
             <!--/.row-->
             <div class="row">
-                <div style="margin-top: 50px" class="col-sm-12">
-                    <div class="card">
+                <div style="margin-top: 50px; min-height: 500px;" class="col-sm-12">
+                    <div class="card" style="width: 90%; margin-left: 5%;">
                         <div class="card-header">
                             <strong>Chat da Turma</strong>
                         </div>
@@ -18,7 +18,7 @@
                             <div class="row">
                                 <div class="col-sm-12">
 
-                                    <p-dataView [value]="mensagensBox" [sortField]="sortField" [sortOrder]="sortOrder">
+                                    <p-dataView [value]="mensagensBox" [paginatorDropdownScrollHeight]="200" [sortField]="sortField" [sortOrder]="sortOrder">
                                         <ng-template let-mensagem pTemplate="listItem">
                                             <div class="row" style="margin-bottom: 20px">
                                                 <img src="assets/img/avatars/7.jpg" class="img-avatar" />

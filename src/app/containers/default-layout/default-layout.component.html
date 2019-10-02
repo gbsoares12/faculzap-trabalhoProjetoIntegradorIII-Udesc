@@ -1,4 +1,4 @@
-<app-header [navbarBrandRouterLink]="['/dashboard']" [fixed]="true"
+<app-header [navbarBrandRouterLink]="['/dashboard']"  [fixed]="false"
   [navbarBrandFull]="{src: 'assets/img/brand/logo.svg', width: 89, height: 25, alt: ''}" [sidebarToggler]="'lg'"
   [asideMenuToggler]="'lg'">
   <ul class="nav navbar-nav ml-auto">
@@ -25,7 +25,7 @@
   </ul>
 </app-header>
 <div class="app-body">
-  <app-sidebar [fixed]="true" [display]="'lg'">
+  <app-sidebar [fixed]="false" [display]="'lg'">
     <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized"></app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>
