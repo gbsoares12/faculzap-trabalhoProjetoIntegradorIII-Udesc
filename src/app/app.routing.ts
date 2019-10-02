@@ -8,6 +8,7 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
+import { ChatComponent } from './views/chat/chat.component';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,10 @@ export const routes: Routes = [
     data: {
       title: 'Page 404'
     }
+  },
+  {
+    path: 'chat',
+    component: ChatComponent
   },
   {
     path: '500',

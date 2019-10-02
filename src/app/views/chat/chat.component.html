@@ -1,0 +1,57 @@
+<div class="animated fadeIn">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-5">
+                    <h4 class="card-title mb-0">{{tituloDisciplina}}</h4>
+                </div>
+                <!--/.col-->
+            </div>
+            <!--/.row-->
+            <div class="row">
+                <div style="margin-top: 50px" class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Chat da Turma</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <p-dataView [value]="mensagensBox" [sortField]="sortField" [sortOrder]="sortOrder">
+                                        <ng-template let-mensagem pTemplate="listItem">
+                                            <div class="row" style="margin-bottom: 20px">
+                                                <img src="assets/img/avatars/7.jpg" class="img-avatar" />
+                                                <div style="margin-left: 10px;">
+                                                    <strong>{{mensagem.enviado_por}}</strong>, diz:
+                                                </div>
+                                                <div style="margin-left: 1%">
+                                                    {{mensagem.texto}}
+                                                </div>
+                                            </div>
+                                            <!--/.row-->
+                                        </ng-template>
+                                    </p-dataView>
+                                </div>
+                            </div>
+                            <!--/.row-->
+                        </div>
+                        <div class="card-footer px-3 py-2">
+                            <strong>Enviar Mensagem</strong>
+                            <div class="input-group">
+                                <input type="text" #textoMensagem pInputText id="input-enviar" name="input-enviar"
+                                    class="form-control">
+                                <span class="input-group-append">
+                                    <button type="button" p-button (click)="addMensagem(textoMensagem.value); textoMensagem.value = ''"
+                                        class="btn btn-secondary">Enviar</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/.col-->
+            </div>
+        </div>
+    </div>
+    <!--/.card-->
+</div>
