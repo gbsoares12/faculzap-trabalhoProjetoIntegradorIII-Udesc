@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+import { AuthGaurdService } from '../app/service/auth-guard.service';
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
 
@@ -12,11 +12,6 @@ import { ChatComponent } from './views/chat/chat.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
-  {
     path: '404',
     component: P404Component,
     data: {
@@ -25,7 +20,8 @@ export const routes: Routes = [
   },
   {
     path: 'chat',
-    component: ChatComponent
+    component: ChatComponent, 
+    canActivate:[AuthGaurdService]
   },
   {
     path: '500',
@@ -54,6 +50,7 @@ export const routes: Routes = [
     data: {
       title: 'Home'
     },
+    canActivate:[AuthGaurdService],
     children: [
       {
         path: 'base',

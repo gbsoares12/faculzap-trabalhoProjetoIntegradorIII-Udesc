@@ -4,14 +4,13 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 
 import { DropdownModule } from 'primeng/dropdown';
 import { DataViewModule } from 'primeng/dataview';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-//import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
+
 import {FullCalendarModule} from 'primeng/fullcalendar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -48,6 +47,12 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { ChatComponent } from './views/chat/chat.component';
+/* Firebase services */
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { environment } from '../environments/environment';
+/* Auth service */
+import { AuthenticationService } from './shared/authentication.service';
 
 @NgModule({
   imports: [
@@ -66,7 +71,9 @@ import { ChatComponent } from './views/chat/chat.component';
     DropdownModule,
     DataViewModule,
     ScrollPanelModule,
-    FullCalendarModule
+    FullCalendarModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule
   ],
   declarations: [
     AppComponent,
@@ -80,7 +87,8 @@ import { ChatComponent } from './views/chat/chat.component';
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
-  }],
+  },
+  AuthenticationService],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

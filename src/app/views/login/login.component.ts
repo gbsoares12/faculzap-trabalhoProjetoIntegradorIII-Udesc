@@ -1,26 +1,28 @@
-import { Component } from '@angular/core';
+import { AuthenticationService } from '../../shared/authentication.service';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'login.component.html'
 })
-export class LoginComponent { 
+export class LoginComponent implements OnInit {
+  ngOnInit(): void {
+    this.signOut();
+  } 
   router: Router;
-  username: string;
+  email: string;
   password: string;
 
-  constructor(router: Router){ 
+  constructor(public authenticationService: AuthenticationService, router: Router){ 
     this.router = router;
   }
 
-
-
-  onSubmitLogin() {
-    this.router.navigate(['/dashboard']);
+  signIn(email: string, password: string) {
+    this.authenticationService.SignIn(email, password);
   }
 
-  onClickSingUp(){
-    this.router.navigate(['/register']);
+  signOut() {
+    this.authenticationService.SignOut();
   }
 }
