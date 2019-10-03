@@ -14,15 +14,14 @@
                         <div class="card-header">
                             <strong>Chat da Turma</strong>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="height: 600px;">
                             <div class="row">
                                 <div class="col-sm-12">
-
-                                    <p-dataView [value]="mensagensBox" [paginatorDropdownScrollHeight]="200" [sortField]="sortField" [sortOrder]="sortOrder">
+                                    <p-dataView [value]="mensagensBox">
                                         <ng-template let-mensagem pTemplate="listItem">
-                                            <div class="row" style="margin-bottom: 20px">
+                                            <div class="row" style="margin-bottom: 30px">
                                                 <img src="assets/img/avatars/7.jpg" class="img-avatar" />
-                                                <div style="margin-left: 10px;">
+                                                <div>
                                                     <strong>{{mensagem.enviado_por}}</strong>, diz:
                                                 </div>
                                                 <div style="margin-left: 1%">
@@ -38,11 +37,12 @@
                         </div>
                         <div class="card-footer px-3 py-2">
                             <strong>Enviar Mensagem</strong>
-                            <div class="input-group">
+                            <div class="input-group" style="margin-top: 10px">
                                 <input type="text" #textoMensagem pInputText id="input-enviar" name="input-enviar"
                                     class="form-control">
                                 <span class="input-group-append">
-                                    <button type="button" p-button (click)="addMensagem(textoMensagem.value); textoMensagem.value = ''"
+                                    <button type="button" p-button
+                                        (click)="addMensagem(textoMensagem.value); textoMensagem.value = ''"
                                         class="btn btn-secondary">Enviar</button>
                                 </span>
                             </div>
@@ -51,6 +51,25 @@
                 </div>
                 <!--/.col-->
             </div>
+            <!--/.row-->
+            <div style="margin-top: 50px;">
+                <div class="card" style="width: 90%; margin-left: 5%;">
+                    <div class="card-header">
+                        <strong>Calendário da Disciplina</strong>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="col-sm-12">
+                            <p-fullCalendar [events]="events" [options]="options"></p-fullCalendar>
+                        </div>
+
+                    </div>
+                    <div class="card-footer px-3 py-2">
+
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
         </div>
     </div>
     <!--/.card-->

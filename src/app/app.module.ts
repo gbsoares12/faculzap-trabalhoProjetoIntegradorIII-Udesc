@@ -8,9 +8,11 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 
-import { DataViewModule } from 'primeng/dataview';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { DataViewModule } from 'primeng/dataview';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+//import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
+import {FullCalendarModule} from 'primeng/fullcalendar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -61,8 +63,10 @@ import { ChatComponent } from './views/chat/chat.component';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
+    DropdownModule,
     DataViewModule,
-    DropdownModule
+    ScrollPanelModule,
+    FullCalendarModule
   ],
   declarations: [
     AppComponent,
