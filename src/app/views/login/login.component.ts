@@ -22,7 +22,12 @@ export class LoginComponent implements OnInit {
     this.authenticationService.SignIn(email, password);
   }
 
+  registrarConta () {
+    this.router.navigate(['/register']);
+  }
+
   redirecionaSeLogado() {
+    console.log('teste');
     if(this.authenticationService.isUserLoggedIn){
       this.router.navigate(['/dashboard']);
     }

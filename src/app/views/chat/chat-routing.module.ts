@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { WidgetsComponent } from './widgets.component';
+import { AuthGaurdService } from '../../service/auth-guard.service';
+import { ChatComponent } from './chat.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: WidgetsComponent,
+    component: ChatComponent,
     data: {
-      title: 'Widgets'
-    }
+      title: 'Chat'
+    },
+    canActivate:[AuthGaurdService]
   }
 ];
 
@@ -17,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class WidgetsRoutingModule {}
+export class ChatRoutingModule {}

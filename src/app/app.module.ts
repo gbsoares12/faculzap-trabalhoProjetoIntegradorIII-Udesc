@@ -8,10 +8,9 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 
 import { DropdownModule } from 'primeng/dropdown';
-import { DataViewModule } from 'primeng/dataview';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 
-import {FullCalendarModule} from 'primeng/fullcalendar';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -69,9 +68,8 @@ import { AuthenticationService } from './shared/authentication.service';
     TabsModule.forRoot(),
     ChartsModule,
     DropdownModule,
-    DataViewModule,
     ScrollPanelModule,
-    FullCalendarModule,
+    
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule
   ],
@@ -81,8 +79,7 @@ import { AuthenticationService } from './shared/authentication.service';
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent,
-    ChatComponent
+    RegisterComponent
   ],
   providers: [{
     provide: LocationStrategy,

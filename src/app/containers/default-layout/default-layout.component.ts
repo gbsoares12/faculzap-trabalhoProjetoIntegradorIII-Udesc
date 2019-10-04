@@ -31,7 +31,6 @@ export class DefaultLayoutComponent implements OnDestroy {
   }
 
   signOut() {
-    console.log("teste");
     this.authenticationService.SignOut();
   }
 }
