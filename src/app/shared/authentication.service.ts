@@ -32,7 +32,8 @@ export class AuthenticationService {
   }
 
   SignOut() {
-    return this.angularFireAuth.auth.signOut();
+    this.angularFireAuth.auth.signOut();
+    this.router.navigate(['/login']);
   }
 
   /* Sign up */
@@ -50,29 +51,8 @@ export class AuthenticationService {
   }
 
   isUserLoggedIn() {
-    const user = sessionStorage.getItem('token');
+    const user = this.angularFireAuth.auth.currentUser;
     console.log(!(user === null));
     return !(user === null);
   }
-
-  /* Sign in 
-  SignIn(email: string, password: string) {
-    this.angularFireAuth
-      .auth
-      .signInWithEmailAndPassword(email, password)
-      .then(res => {
-        console.log('Successfully signed in!');
-        this.router.navigate(['/dashboard']);
-      })
-      .catch(err => {
-        console.log('Something is wrong:', err.message);
-      });
-  }
-  
-  SignOut() {
-    this.angularFireAuth
-      .auth
-      .signOut();
-  }
-  */
 }

@@ -29,4 +29,9 @@ export class DefaultLayoutComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.changes.disconnect();
   }
+
+  signOut() {
+    console.log("teste");
+    this.authenticationService.SignOut();
+  }
 }

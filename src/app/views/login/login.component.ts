@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   ngOnInit(): void {
-    this.signOut();
+    this.redirecionaSeLogado();
   } 
   router: Router;
   email: string;
@@ -22,7 +22,10 @@ export class LoginComponent implements OnInit {
     this.authenticationService.SignIn(email, password);
   }
 
-  signOut() {
-    this.authenticationService.SignOut();
+  redirecionaSeLogado() {
+    if(this.authenticationService.isUserLoggedIn){
+      this.router.navigate(['/dashboard']);
+    }
   }
+
 }
