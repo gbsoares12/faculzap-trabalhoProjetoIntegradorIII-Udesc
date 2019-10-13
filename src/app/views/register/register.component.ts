@@ -1,3 +1,4 @@
+import { UserService } from './../../service/user.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -13,14 +14,19 @@ export class RegisterComponent {
   password: string;
   router: Router;
 
-  constructor(public authenticationService: AuthenticationService, router: Router) {
+  constructor(public authenticationService: AuthenticationService, router: Router, private userService: UserService) {
     this.router = router;
    }
 
   signUp(email: string, password: string) {
-    this.authenticationService.SignUp(email, password);
-    this.email = ''; 
-    this.password = '';
+    try{
+      this.authenticationService.SignUp(email, password);
+      this.email = ''; 
+      this.password = '';
+    } catch (e){
+      console.error(e);
+    }
+    
   }
 
 }

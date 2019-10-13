@@ -9,7 +9,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 import { DropdownModule } from 'primeng/dropdown';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-
+import {ToastModule} from 'primeng/toast';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -48,8 +48,10 @@ import { ChartsModule } from 'ng2-charts';
 import { ChatComponent } from './views/chat/chat.component';
 /* Firebase services */
 import { AngularFireModule } from "@angular/fire";
+import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { environment } from '../environments/environment';
+import { AngularFirestoreModule} from '@angular/fire/firestore';
 /* Auth service */
 import { AuthenticationService } from './shared/authentication.service';
 
@@ -69,9 +71,11 @@ import { AuthenticationService } from './shared/authentication.service';
     ChartsModule,
     DropdownModule,
     ScrollPanelModule,
-    
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule
+    AngularFirestoreModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    ToastModule
   ],
   declarations: [
     AppComponent,

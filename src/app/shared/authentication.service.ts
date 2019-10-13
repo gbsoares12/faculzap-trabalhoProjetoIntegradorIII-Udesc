@@ -1,7 +1,10 @@
+import { UserData } from './../../model/user-data';
+import { UserService } from './../service/user.service';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { User } from '../../model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,29 +13,44 @@ import { Router } from '@angular/router';
 export class AuthenticationService {
   userData: Observable<firebase.User>;
   router: Router;
-  constructor(private angularFireAuth: AngularFireAuth, router: Router) {
+  currentUser: UserData;
+  correct: boolean;
+
+  constructor(private angularFireAuth: AngularFireAuth, router: Router, private userService: UserService) {
     this.userData = angularFireAuth.authState;
     this.router = router;
   }
 
   SignIn(mail: string, password: string) {
-    return new Promise((resolve, reject) => {
-      this.angularFireAuth.auth.signInWithEmailAndPassword(mail, password).then((result) => {
-        sessionStorage['token'] = result.user.getIdToken;
-        sessionStorage['userSession'] = result.user;
-        this.router.navigate(['/dashboard']);
-      })
-        .catch((error) => {
-          this.router.navigate(['/login']);
-        });
-    })
-      .catch((error) => {
-        this.router.navigate(['/login']);
-      });
+    var teste = this;
+
+      if (this.angularFireAuth.auth.currentUser == null) {
+        this.angularFireAuth.auth.signInWithEmailAndPassword(mail, password).then((result) => {
+
+          sessionStorage.setItem("userSession", JSON.stringify(result.user));
+
+          this.userService.read_user(result.user.uid)
+            .then((snapshot) =>
+              snapshot.empty ? this.userService.create_user(result.user) : null
+            );
+          this.router.navigate(['/dashboard']);
+          teste.correct = true;
+        })
+          .catch((error) => {
+            this.router.navigate(['/login']);
+            console.error(error);
+            teste.correct = false;
+          });
+      } else {
+        sessionStorage.setItem("userSession", JSON.stringify(this.angularFireAuth.user));
+        teste.correct = true;
+      }
+      return this.correct;
   }
 
   SignOut() {
     this.angularFireAuth.auth.signOut();
+    sessionStorage.clear();
     this.router.navigate(['/login']);
   }
 
@@ -43,11 +61,18 @@ export class AuthenticationService {
       .createUserWithEmailAndPassword(email, password)
       .then(res => {
         console.log('Successfully signed up!', res);
+        try {
+          this.userService.create_user(res.user);
+        } catch (error) {
+          console.error(error);
+        }
+
         this.router.navigate(['/login']);
       })
       .catch(error => {
         console.log('Something is wrong:', error.message);
       });
+
   }
 
   isUserLoggedIn() {
