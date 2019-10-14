@@ -14,8 +14,6 @@ export class ContainerMateriaCardComponent implements OnInit {
   gruposAtivos: Grupo[] = [];
 
   constructor(private grupoService: GrupoService) {
-    console.log(`User Session: ${sessionStorage.getItem('userSession')}`);
-    console.log(`ID Doc: ${sessionStorage.getItem('idDoc')}`)
     this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
     this.idDocUser = sessionStorage.getItem('idDoc');
   }
@@ -27,7 +25,6 @@ export class ContainerMateriaCardComponent implements OnInit {
   async getGrupos() {
     await this.grupoService.read_grupo(this.currentUser.uid).then((snapshot) => {
       snapshot.forEach((doc) => {
-        console.log(doc.data());
         this.gruposAtivos.push(this.grupoService.criaObjGrupo(doc.data()));
       });
     });
