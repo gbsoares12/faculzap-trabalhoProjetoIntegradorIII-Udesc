@@ -1,8 +1,7 @@
-import { UserData } from './../../model/user-data';
 import { UserService } from './../service/user.service';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
-import { Observable } from 'rxjs';
+import { Observable, Subscribable, PartialObserver, CompletionObserver, observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../../model/user';
 
@@ -11,41 +10,45 @@ import { User } from '../../model/user';
 })
 
 export class AuthenticationService {
-  userData: Observable<firebase.User>;
   router: Router;
-  currentUser: UserData;
-  correct: boolean;
-
+  currentUser: User;
   constructor(private angularFireAuth: AngularFireAuth, router: Router, private userService: UserService) {
-    this.userData = angularFireAuth.authState;
     this.router = router;
   }
 
-  SignIn(mail: string, password: string) {
-    var teste = this;
+  async SignIn(mail: string, password: string) {
 
-      if (this.angularFireAuth.auth.currentUser == null) {
-        this.angularFireAuth.auth.signInWithEmailAndPassword(mail, password).then((result) => {
+    if (this.angularFireAuth.auth.currentUser === null) {
+      await this.angularFireAuth.auth.signInWithEmailAndPassword(mail, password).then((result) => {
+      })
+        .catch((error) => {
+          this.router.navigate(['/login']);
+          console.error(error);
+        });
 
-          sessionStorage.setItem("userSession", JSON.stringify(result.user));
-
-          this.userService.read_user(result.user.uid)
-            .then((snapshot) =>
-              snapshot.empty ? this.userService.create_user(result.user) : null
-            );
-          this.router.navigate(['/dashboard']);
-          teste.correct = true;
-        })
-          .catch((error) => {
-            this.router.navigate(['/login']);
-            console.error(error);
-            teste.correct = false;
-          });
-      } else {
-        sessionStorage.setItem("userSession", JSON.stringify(this.angularFireAuth.user));
-        teste.correct = true;
+      if (this.angularFireAuth.auth.currentUser !== null) {
+        this.userService.read_user(this.angularFireAuth.auth.currentUser.uid)
+          .then((snapshot) =>
+            snapshot.empty ? this.userService.create_user(this.angularFireAuth.auth.currentUser) : snapshot.forEach((doc) => {
+              console.log(doc.id);
+              this.MontaUsuario(doc.data(), doc.id);
+            })
+          );
       }
-      return this.correct;
+    } else {
+      this.userService.read_user(this.angularFireAuth.auth.currentUser.uid)
+        .then((snapshot) =>
+          snapshot.forEach((doc) => {
+            this.MontaUsuario(doc.data(), doc.id);
+          })
+        );
+    }
+  }
+
+  MontaUsuario(docUser, idDoc) {
+    sessionStorage.setItem('userSession', JSON.stringify(docUser));
+    sessionStorage.setItem('idDoc', idDoc);
+    this.router.navigate(['/dashboard']);
   }
 
   SignOut() {
@@ -77,7 +80,9 @@ export class AuthenticationService {
 
   isUserLoggedIn() {
     const user = this.angularFireAuth.auth.currentUser;
+    const userSession = sessionStorage.getItem('userSession');
+
     console.log(!(user === null));
-    return !(user === null);
+    return !(user === null && userSession === null);
   }
 }

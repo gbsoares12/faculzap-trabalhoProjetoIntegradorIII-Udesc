@@ -28,25 +28,25 @@ export class ChatComponent implements OnInit {
     this.events = [
       {
         "title": "Trabalho de PIN III",
-        "start": "2019-10-03"
+        "start": "2019-10-14"
       },
       {
-        "title": "Long Event",
-        "start": "2016-01-07",
-        "end": "2016-01-10"
+        "title": "Evento Longo",
+        "start": "2019-10-01",
+        "end": "2019-10-08"
       },
       {
-        "title": "Repeating Event",
-        "start": "2016-01-09T16:00:00"
+        "title": "Repetido",
+        "start": "2019-10-17T20:30:00"
       },
       {
-        "title": "Repeating Event",
-        "start": "2016-01-16T16:00:00"
+        "title": "Repetido",
+        "start": "2019-10-19T20:50:00"
       },
       {
-        "title": "Conference",
-        "start": "2016-01-11",
-        "end": "2016-01-13"
+        "title": "Aula EAD",
+        "start": "2019-10-25",
+        "end": "2019-10-30"
       }
     ];
 
@@ -67,7 +67,6 @@ export class ChatComponent implements OnInit {
 
   addMensagem(texto: String): void {
     this.mensagensBox.push({ arquivo_url: '', data_envio: null, enviado_por: 'Gabriel Soares', imagem_url: '', texto: texto });
-    console.log(this.mensagensBox.length)
   }
 
   updateCalendar() {

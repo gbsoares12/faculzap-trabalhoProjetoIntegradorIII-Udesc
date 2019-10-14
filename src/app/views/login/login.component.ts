@@ -2,7 +2,6 @@ import { User } from './../../../model/user';
 import { AuthenticationService } from '../../shared/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../../service/user.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 @Component({
   selector: 'app-dashboard',
@@ -20,17 +19,20 @@ export class LoginComponent implements OnInit {
   currentUser: User;
   constructor(public authenticationService: AuthenticationService,
     router: Router,
-    private userService: UserService,
     private messageService: MessageService) {
     this.router = router;
   }
 
   signIn(email: string, password: string) {
-    if (this.authenticationService.SignIn(email, password)) {
+    this.authenticationService.SignIn(email, password)
+/*    
+  if(sessionStorage.getItem('userSession') != null){
       this.showSuccess();
-    } else {
+    }else {
       this.showError();
-    }
+  } 
+    
+    */
   }
 
   registrarConta() {
@@ -44,8 +46,9 @@ export class LoginComponent implements OnInit {
   showError() {
     this.messageService.add({ severity: 'error', summary: 'Usuário e senha não correspondem a um usuário cadastrado', detail: 'Valição falhou' });
   }
+
   redirecionaSeLogado() {
-    if (this.authenticationService.isUserLoggedIn) {
+    if (this.authenticationService.isUserLoggedIn()) {
       this.router.navigate(['/dashboard']);
     }
   }

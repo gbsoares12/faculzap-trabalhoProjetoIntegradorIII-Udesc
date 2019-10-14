@@ -1,6 +1,11 @@
-    <div class='row'>
-        <app-card-class></app-card-class>
-        <app-card-class></app-card-class>
-        <app-card-class></app-card-class>
-        <app-card-class></app-card-class>
+<div class='row'>
+    <div *ngIf="gruposAtivos">
+        <div *ngFor="let grupo of gruposAtivos">
+            <div class="lesson-detail">
+                <app-card-class titulo="{{grupo.titulo}}" onlines="20"></app-card-class>
+            </div>
+        </div>
     </div>
+</div>
+
+<!--<app-card-class titulo="{{grupo.titulo}}" onlines="20"></app-card-class>-->

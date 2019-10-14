@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Grupo } from '../../../../model/grupo';
+import { User } from '../../../../model/user';
+import { GrupoService } from '../../../service/grupo.service';
 
 @Component({
   selector: 'app-container-materia-card',
@@ -6,10 +9,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./container-materia-card.component.scss']
 })
 export class ContainerMateriaCardComponent implements OnInit {
+  currentUser: User;
+  idDocUser: string;
+  gruposAtivos: Grupo[] = [];
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private grupoService: GrupoService) {
+    console.log(`User Session: ${sessionStorage.getItem('userSession')}`);
+    console.log(`ID Doc: ${sessionStorage.getItem('idDoc')}`)
+    this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
+    this.idDocUser = sessionStorage.getItem('idDoc');
   }
 
+  ngOnInit(): void {
+    this.getGrupos();
+  }
+
+  async getGrupos() {
+    await this.grupoService.read_grupo(this.currentUser.uid).then((snapshot) => {
+      snapshot.forEach((doc) => {
+        console.log(doc.data());
+        this.gruposAtivos.push(this.grupoService.criaObjGrupo(doc.data()));
+      });
+    });
+  }
 }
