@@ -1,8 +1,11 @@
+import { GrupoService } from './../../service/grupo.service';
 import { Component, OnInit } from '@angular/core';
-import { Mensagem } from './mensagem';
+import { Mensagem } from '../../../model/mensagem';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { User } from '../../../model/user';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -16,8 +19,14 @@ export class ChatComponent implements OnInit {
   inputMensagem: String;
   events: any[];
   options: any;
+  // Conf do Grupo
+  currentUser: User;
+  idDocUser: string;
 
-  constructor() {
+  constructor(private grupoService: GrupoService, private router: ActivatedRoute) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
+    this.idDocUser = sessionStorage.getItem('idDoc');
+
     this.tituloDisciplina = 'Projeto Integrador';
     this.mensagensBox = [
       { arquivo_url: '', data_envio: null, enviado_por: 'Gabriel Soares', imagem_url: 'none', texto: 'Oi' },
@@ -25,6 +34,7 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Conf Calendario
     this.events = [
       {
         "title": "Trabalho de PIN III",
@@ -49,7 +59,6 @@ export class ChatComponent implements OnInit {
         "end": "2019-10-30"
       }
     ];
-
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       defaultDate: new Date,
@@ -63,6 +72,13 @@ export class ChatComponent implements OnInit {
         console.log(e);
       }
     };
+    // Fim Calendario
+
+    // Conf Infos Grupo 
+    // // se possivel, capture o parametro 
+    // let questoesParam = this.router
+    //   .queryParamMap
+    //   .map(params => params.get('atributo') || 'None');
   }
 
   addMensagem(texto: String): void {
@@ -70,16 +86,11 @@ export class ChatComponent implements OnInit {
   }
 
   updateCalendar() {
-
-    //correct
     this.events = [...this.events, {
       "title": "Conference",
       "start": "2016-01-11",
       "end": "2016-01-13"
     }];
-
-
-    //correct
     this.options = { ...this.options };
   }
 

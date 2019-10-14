@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -13,9 +14,15 @@ export class CardClassComponent implements OnInit {
   @Input('onlines')
   public onlines: string;
 
-  constructor() { }
+  @Input('idGrupo')
+  public idGrupo: string;
+
+  constructor(public router: Router) { }
 
   ngOnInit() {
   }
 
+  abreChat(){
+    this.router.navigate(['/chat']);
+  }
 }

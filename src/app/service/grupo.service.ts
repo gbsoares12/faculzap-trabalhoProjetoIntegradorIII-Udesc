@@ -36,9 +36,11 @@ export class GrupoService {
       .where("usuarios", "array-contains", uid)
       .get();
     return query;
-
-
   };
+
+  get_grupoTitulo(tituloGrupo: string){
+    
+  }
 
   get_mensagensGrupo(idDoc: string) {
     var query = this.firestore.collection(`/Grupos/${idDoc}/mensagens/`).get();
