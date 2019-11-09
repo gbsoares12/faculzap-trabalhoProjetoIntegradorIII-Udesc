@@ -16,8 +16,7 @@ export class UserService {
       displayName: user.displayName,
       email: user.email,
       uid: user.uid,
-      photoURL: user.photoURL,
-      uidGrupos: user.uidGrupos
+      photoURL: user.photoURL
     };
     return new Promise<any>((resolve, reject) => {
       this.firestore

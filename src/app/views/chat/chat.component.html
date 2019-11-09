@@ -15,20 +15,21 @@
                             <strong>Chat da Turma</strong>
                         </div>
                         <div class="card-body" style="height: 600px;">
-                            <div class="col-sm-12">
-                                <cdk-virtual-scroll-viewport itemSize="5" style="height: 580px; width: 100%;">
-                                    <div *cdkVirtualFor="let mensagem of mensagensBox" style="padding-left: 20px;">
-                                            <app-mensagem nomeUser="{{mensagem.enviado_por}}" texto="{{mensagem.texto}}"></app-mensagem>
+                            <cdk-virtual-scroll-viewport itemSize="5" style="height: 580px; width: 100%;">
+                                <div *cdkVirtualFor="let mensagem of mensagensBox" style="padding-left: 5px; max-width: 1000px;">
+                                    <div class="col-sm-12 col-g-12">
+                                        <app-mensagem nomeUser="{{mensagem.enviado_por}}" texto="{{mensagem.texto}}">
+                                        </app-mensagem>
                                     </div>
-                                </cdk-virtual-scroll-viewport>
-
-                                <!-- <div *ngIf="mensagensBox">
+                                </div>
+                            </cdk-virtual-scroll-viewport>
+                            <!-- <div *ngIf="mensagensBox">
                                     <div *ngFor="let mensagem of mensagensBox">
                                         <app-mensagem nomeUser="{{mensagem.enviado_por}}" texto="{{mensagem.texto}}">
                                         </app-mensagem>
                                     </div>
                                 </div> -->
-                            </div>
+
                         </div>
                         <div class="card-footer px-3 py-2">
                             <strong>Enviar Mensagem</strong>

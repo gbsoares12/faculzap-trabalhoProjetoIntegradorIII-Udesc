@@ -91,6 +91,7 @@ export class ChatComponent implements OnInit {
   }
 
 
+
   addMensagem(texto: String): void {
     let mensagem = {
       uid: '',

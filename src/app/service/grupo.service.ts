@@ -37,12 +37,14 @@ export class GrupoService {
     var query = bdRef
       .where("usuarios", "array-contains", uid)
       .get();
-      query.then((snapshot) => {
+    query.then((snapshot) => {
+      if (!snapshot.empty) {
         snapshot.forEach((doc) => {
           gruposAtivos.push(this.criaObjGrupo(doc))
         });
-      })
-      return gruposAtivos;
+      }
+    })
+    return gruposAtivos;
   }
 
   get_grupoTitulo(tituloGrupo: string) {
@@ -67,23 +69,35 @@ export class GrupoService {
     return query
   }
 
-  criaObjMensagem(mensagemDoc){
+  criaObjMensagem(mensagemDoc) {
     let newMensagem: Mensagem;
     newMensagem = {
-    uid: mensagemDoc.id,
-    arquivo_url: mensagemDoc.data().arquivo_url,
-    data_envio: mensagemDoc.data().data_envio,
-    enviado_por: mensagemDoc.data().enviado_por,
-    imagem_url: mensagemDoc.data().imagem_url,
-    texto: mensagemDoc.data().texto,
+      uid: mensagemDoc.id,
+      arquivo_url: mensagemDoc.data().arquivo_url,
+      data_envio: mensagemDoc.data().data_envio,
+      enviado_por: mensagemDoc.data().enviado_por,
+      imagem_url: mensagemDoc.data().imagem_url,
+      texto: mensagemDoc.data().texto,
     };
     return newMensagem;
   }
 
-  enviarMensagem(idGrupo: String, msg: Mensagem){
+  // formataTexto(textoMsg: String) {
+  //   let stringCompleta = "";
+  //   let quantidadeQuebraLinha = parseInt((textoMsg.length / 230).toPrecision(1));
+
+  //   if (quantidadeQuebraLinha > 0) {
+  //     for (let index = 0; index < quantidadeQuebraLinha; index++) {
+  //       stringCompleta = textoMsg.substr(0, 230) + "\n" + textoMsg.substr(230, textoMsg.length)
+  //     }
+  //   }
+  //   return stringCompleta === "" ? textoMsg : stringCompleta
+  // }
+
+  enviarMensagem(idGrupo: String, msg: Mensagem) {
     this.firestore
-        .collection(`/Grupos/${idGrupo}/mensagens/`)
-        .add(msg);
+      .collection(`/Grupos/${idGrupo}/mensagens/`)
+      .add(msg);
   }
 
   /*update_grupo : atualiza o registro pegando o ID e chamando o método de atualização */
@@ -94,6 +108,6 @@ export class GrupoService {
   delete_grupo(record_id) {
     this.firestore.doc('/Usuarios/alunos/usuarios_alunos/' + record_id).delete();
   }
-  
+
 }
 
