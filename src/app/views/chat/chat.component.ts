@@ -23,6 +23,7 @@ export class ChatComponent implements OnInit {
   currentUser: User;
   idDocUser: string;
   idGrupoAtivo: string;
+  
 
   constructor(private grupoService: GrupoService, private router: ActivatedRoute) {
     this.router.params.subscribe(res => this.idGrupoAtivo = res.idGrupo);
@@ -80,14 +81,15 @@ export class ChatComponent implements OnInit {
         this.mensagensBox = []
         if (next) {
           next.forEach((doc) => {
-            console.log(doc.payload.doc);
             this.mensagensBox.push(this.grupoService.criaObjMensagem(doc.payload.doc))
           });
+          this.mensagensBox.sort((a,b)=> a.data_envio < b.data_envio ? 1 : -1);
         }
       },
       (error) => { },
     )
   }
+
 
   addMensagem(texto: String): void {
     let mensagem = {

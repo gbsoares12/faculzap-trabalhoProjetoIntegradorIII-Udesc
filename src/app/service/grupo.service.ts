@@ -63,16 +63,7 @@ export class GrupoService {
   }
 
   get_mensagensGrupo(idGrupo: string) {
-    //let mensagensGrupo: Mensagem[] = [];
-
     var query = this.firestore.collection(`/Grupos/${idGrupo}/mensagens/`).snapshotChanges();
-
-    // query.subscribe((snapshot) => {
-    //   snapshot.forEach((doc) => {
-    //     mensagensGrupo.push(this.criaObjMensagem(doc))
-    //   });
-    // });
-    
     return query
   }
 
