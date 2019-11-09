@@ -23,10 +23,6 @@ export class ContainerMateriaCardComponent implements OnInit {
   }
 
   async getGrupos() {
-    await this.grupoService.read_grupo(this.currentUser.uid).then((snapshot) => {
-      snapshot.forEach((doc) => {
-        this.gruposAtivos.push(this.grupoService.criaObjGrupo(doc.data()));
-      });
-    });
+    this.gruposAtivos = await this.grupoService.read_grupo(this.currentUser.uid)
   }
 }

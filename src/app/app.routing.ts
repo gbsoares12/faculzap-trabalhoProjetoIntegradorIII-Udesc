@@ -51,7 +51,7 @@ export const routes: Routes = [
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {
-        path: 'chat',
+        path: 'chat/:idGrupo',
         loadChildren: () => import('./views/chat/chat.module').then(m => m.ChatModule)
       }
     ]

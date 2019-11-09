@@ -2,7 +2,7 @@
     <div *ngIf="gruposAtivos">
         <div *ngFor="let grupo of gruposAtivos">
             <div class="lesson-detail">
-                <app-card-class titulo="{{grupo.titulo}}" onlines="20"></app-card-class>
+                <app-card-class idGrupo="{{grupo.uid}}" titulo="{{grupo.titulo}}" onlines="20"></app-card-class>
             </div>
         </div>
     </div>

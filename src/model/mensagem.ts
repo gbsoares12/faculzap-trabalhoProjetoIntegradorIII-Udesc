@@ -1,5 +1,5 @@
 export interface Mensagem {
-
+    uid: String;
     arquivo_url: String;
     data_envio: Date;
     enviado_por: String;

@@ -19,8 +19,7 @@ export class AuthenticationService {
   async SignIn(mail: string, password: string) {
 
     if (this.angularFireAuth.auth.currentUser === null) {
-      await this.angularFireAuth.auth.signInWithEmailAndPassword(mail, password).then((result) => {
-      })
+      await this.angularFireAuth.auth.signInWithEmailAndPassword(mail, password)
         .catch((error) => {
           this.router.navigate(['/login']);
           console.error(error);

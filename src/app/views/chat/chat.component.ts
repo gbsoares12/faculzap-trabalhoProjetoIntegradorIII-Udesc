@@ -1,6 +1,6 @@
+import { Mensagem } from './../../../model/mensagem';
 import { GrupoService } from './../../service/grupo.service';
 import { Component, OnInit } from '@angular/core';
-import { Mensagem } from '../../../model/mensagem';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -14,7 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ChatComponent implements OnInit {
   tituloDisciplina: String;
-  mensagensBox: Mensagem[];
+  mensagensBox: Mensagem[] = [];
   mensagemSelected: Mensagem;
   inputMensagem: String;
   events: any[];
@@ -22,15 +22,16 @@ export class ChatComponent implements OnInit {
   // Conf do Grupo
   currentUser: User;
   idDocUser: string;
+  idGrupoAtivo: string;
 
   constructor(private grupoService: GrupoService, private router: ActivatedRoute) {
+    this.router.params.subscribe(res => this.idGrupoAtivo = res.idGrupo);
+
     this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
     this.idDocUser = sessionStorage.getItem('idDoc');
 
     this.tituloDisciplina = 'Projeto Integrador';
-    this.mensagensBox = [
-      { arquivo_url: '', data_envio: null, enviado_por: 'Gabriel Soares', imagem_url: 'none', texto: 'Oi' },
-    ];
+    
   }
 
   ngOnInit() {
@@ -74,15 +75,30 @@ export class ChatComponent implements OnInit {
     };
     // Fim Calendario
 
-    // Conf Infos Grupo 
-    // // se possivel, capture o parametro 
-    // let questoesParam = this.router
-    //   .queryParamMap
-    //   .map(params => params.get('atributo') || 'None');
+    this.grupoService.get_mensagensGrupo(this.idGrupoAtivo).subscribe(
+      (next) => {
+        this.mensagensBox = []
+        if (next) {
+          next.forEach((doc) => {
+            console.log(doc.payload.doc);
+            this.mensagensBox.push(this.grupoService.criaObjMensagem(doc.payload.doc))
+          });
+        }
+      },
+      (error) => { },
+    )
   }
 
   addMensagem(texto: String): void {
-    this.mensagensBox.push({ arquivo_url: '', data_envio: null, enviado_por: 'Gabriel Soares', imagem_url: '', texto: texto });
+    let mensagem = {
+      uid: '',
+      arquivo_url: '',
+      data_envio: new Date(),
+      enviado_por: this.currentUser.displayName,
+      imagem_url: '',
+      texto: texto
+    }
+    this.grupoService.enviarMensagem(this.idGrupoAtivo, mensagem);
   }
 
   updateCalendar() {
@@ -93,6 +109,5 @@ export class ChatComponent implements OnInit {
     }];
     this.options = { ...this.options };
   }
-
 
 }

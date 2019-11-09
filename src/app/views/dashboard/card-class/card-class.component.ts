@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './card-class.component.html',
   styleUrls: ['./card-class.component.scss']
 })
-export class CardClassComponent implements OnInit {
+export class CardClassComponent {
 
   @Input('titulo')
   public titulo: string;
@@ -19,10 +19,5 @@ export class CardClassComponent implements OnInit {
 
   constructor(public router: Router) { }
 
-  ngOnInit() {
-  }
 
-  abreChat(){
-    this.router.navigate(['/chat']);
-  }
 }

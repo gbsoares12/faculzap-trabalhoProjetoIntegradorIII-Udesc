@@ -10,30 +10,25 @@
             <!--/.row-->
             <div class="row">
                 <div style="margin-top: 50px; min-height: 500px;" class="col-sm-12">
-                    <div class="card" style="width: 90%; margin-left: 5%;">
+                    <div class="card">
                         <div class="card-header">
                             <strong>Chat da Turma</strong>
                         </div>
                         <div class="card-body" style="height: 600px;">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <p-dataView [value]="mensagensBox">
-                                        <ng-template let-mensagem pTemplate="listItem">
-                                            <div class="row" style="margin-bottom: 30px">
-                                                <img src="assets/img/avatars/7.jpg" class="img-avatar" />
-                                                <div>
-                                                    <strong>{{mensagem.enviado_por}}</strong>, diz:
-                                                </div>
-                                                <div style="margin-left: 1%">
-                                                    {{mensagem.texto}}
-                                                </div>
-                                            </div>
-                                            <!--/.row-->
-                                        </ng-template>
-                                    </p-dataView>
-                                </div>
+                            <div class="col-sm-12">
+                                <cdk-virtual-scroll-viewport itemSize="5" style="height: 580px; width: 100%;">
+                                    <div *cdkVirtualFor="let mensagem of mensagensBox" style="padding-left: 20px;">
+                                            <app-mensagem nomeUser="{{mensagem.enviado_por}}" texto="{{mensagem.texto}}"></app-mensagem>
+                                    </div>
+                                </cdk-virtual-scroll-viewport>
+
+                                <!-- <div *ngIf="mensagensBox">
+                                    <div *ngFor="let mensagem of mensagensBox">
+                                        <app-mensagem nomeUser="{{mensagem.enviado_por}}" texto="{{mensagem.texto}}">
+                                        </app-mensagem>
+                                    </div>
+                                </div> -->
                             </div>
-                            <!--/.row-->
                         </div>
                         <div class="card-footer px-3 py-2">
                             <strong>Enviar Mensagem</strong>
