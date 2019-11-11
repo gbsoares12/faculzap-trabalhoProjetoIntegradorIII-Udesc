@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../model/user';
 import { AngularFirestore } from '@angular/fire/firestore/firestore';
+import { snapshotChanges } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class UserService {
 
   constructor(private firestore: AngularFirestore) { }
   create_user(user, nome) {
-    
+
     let newUser: User;
     newUser = {
       displayName: nome,
@@ -25,12 +26,14 @@ export class UserService {
     });
   }
   /*read_user: Chama o método snapshotChanges , que obterá registros e também será registrado para receber atualizações */
-  read_user(uid: string) {  
+  async read_user(uid: string) {
     var bdRef = this.firestore.collection('/Usuarios/alunos/usuarios_alunos/').ref;
-    var query = bdRef.where("uid", "==", uid)
-      .get();
+    var query = await bdRef.where("uid", "==", uid)
+      .get()
+    if (query.empty) {
+      return this.firestore.collection('/Usuarios/professores/usuarios_professores/').ref.where("uid", "==", uid).get();
+    }
     return query;
-    //query.then((snapshot) => sessionStorage.setItem("usuarioRegistrado", JSON.stringify(snapshot.docs[0].data())));
   };
 
   /*update_user : atualiza o registro pegando o ID e chamando o método de atualização */

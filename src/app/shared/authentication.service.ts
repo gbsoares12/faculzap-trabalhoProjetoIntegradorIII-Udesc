@@ -33,7 +33,7 @@ export class AuthenticationService {
           );
       }
     } else {
-      this.userService.read_user(this.angularFireAuth.auth.currentUser.uid)
+      await this.userService.read_user(this.angularFireAuth.auth.currentUser.uid)
         .then((snapshot) =>
           snapshot.forEach((doc) => {
             this.MontaUsuario(doc.data(), doc.id);
@@ -52,8 +52,8 @@ export class AuthenticationService {
     this.router.navigate(['/dashboard']);
   }
 
-  SignOut() {
-    this.angularFireAuth.auth.signOut();
+  async SignOut() {
+    await this.angularFireAuth.auth.signOut();
     sessionStorage.clear();
     this.router.navigate(['/login']);
   }

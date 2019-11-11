@@ -31,13 +31,26 @@ export class GrupoService {
     return usuariosAlunos;
   }
 
+  async get_todos_usuarios_professores() {
+    let usuariosProfessores: any[] = [];
+    let querySnapshot = this.firestore.collection("/Usuarios/professores/usuarios_professores/").get();
+    await querySnapshot.forEach((snapshot) => {
+      if (!snapshot.empty) {
+        snapshot.forEach((professor) => {
+          if (professor.data().uid !== this.userCurrent.uid) {
+            usuariosProfessores = [...usuariosProfessores, {
+              "nome": professor.data().displayName,
+              "uid": professor.data().uid,
+            }]
+          }
+        })
+      }
+    })
+    return usuariosProfessores;
+  }
+
   async get_eventosCalendario(idGrupo: String) {
     let eventos: any[] = [];
-    eventos = [...eventos, {
-      "title": "Wild Robert appears!!",
-      "start": "2019-11-25",
-      "end": "2019-11-30"
-    }];
     let querySnapshot = this.firestore.collection(`/Grupos/${idGrupo}/diciplina/`).get();
     if (querySnapshot != null) {
       await querySnapshot.forEach((docSnapshot) => {

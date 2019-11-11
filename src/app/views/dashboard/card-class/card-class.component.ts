@@ -6,18 +6,23 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './card-class.component.html',
   styleUrls: ['./card-class.component.scss']
 })
-export class CardClassComponent {
+export class CardClassComponent implements OnInit{
+  ngOnInit(): void {
+    this.integrantes = this.onlines.length + '';
+  }
 
   @Input('titulo')
   public titulo: string;
 
   @Input('onlines')
-  public onlines: string;
+  public onlines: any[];
 
   @Input('idGrupo')
   public idGrupo: string;
-
-  constructor(public router: Router) { }
+  integrantes: string;
+  constructor(public router: Router) {
+    
+   }
 
 
 }
