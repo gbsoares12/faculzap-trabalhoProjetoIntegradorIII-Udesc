@@ -1,7 +1,6 @@
 import { UserService } from './../service/user.service';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
-import { Observable, Subscribable, PartialObserver, CompletionObserver, observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../../model/user';
 
@@ -28,8 +27,7 @@ export class AuthenticationService {
       if (this.angularFireAuth.auth.currentUser !== null) {
         this.userService.read_user(this.angularFireAuth.auth.currentUser.uid)
           .then((snapshot) =>
-            snapshot.empty ? this.userService.create_user(this.angularFireAuth.auth.currentUser) : snapshot.forEach((doc) => {
-              console.log(doc.id);
+            snapshot.empty ? this.userService.create_user(this.angularFireAuth.auth.currentUser,"") : snapshot.forEach((doc) => {
               this.MontaUsuario(doc.data(), doc.id);
             })
           );
@@ -42,6 +40,10 @@ export class AuthenticationService {
           })
         );
     }
+  }
+
+  get_auth(){
+    return this.angularFireAuth.auth;
   }
 
   MontaUsuario(docUser, idDoc) {
@@ -57,14 +59,14 @@ export class AuthenticationService {
   }
 
   /* Sign up */
-  SignUp(email: string, password: string) {
+  SignUp(email: string, password: string, nome: string) {
     this.angularFireAuth
       .auth
       .createUserWithEmailAndPassword(email, password)
       .then(res => {
         console.log('Successfully signed up!', res);
         try {
-          this.userService.create_user(res.user);
+          this.userService.create_user(res.user, nome);
         } catch (error) {
           console.error(error);
         }

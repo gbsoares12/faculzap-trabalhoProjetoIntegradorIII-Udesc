@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../model/user';
-import { map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore/firestore';
 
 @Injectable({
@@ -10,13 +9,14 @@ export class UserService {
   userFound: string;
 
   constructor(private firestore: AngularFirestore) { }
-  create_user(user) {
+  create_user(user, nome) {
+    
     let newUser: User;
     newUser = {
-      displayName: user.displayName,
+      displayName: nome,
       email: user.email,
       uid: user.uid,
-      photoURL: user.photoURL
+      photoURL: `https://randomuser.me/api/portraits/med/men/${(Math.random() * (99 - 0)).toPrecision(2)}.jpg`
     };
     return new Promise<any>((resolve, reject) => {
       this.firestore

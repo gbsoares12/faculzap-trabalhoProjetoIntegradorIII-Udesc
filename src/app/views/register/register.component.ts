@@ -10,6 +10,7 @@ import { AuthenticationService } from '../../shared/authentication.service';
 })
 export class RegisterComponent {
 
+  nome: string;
   email: string;
   password: string;
   router: Router;
@@ -18,9 +19,9 @@ export class RegisterComponent {
     this.router = router;
    }
 
-  signUp(email: string, password: string) {
+  async signUp(email: string, password: string, nome: string) {
     try{
-      this.authenticationService.SignUp(email, password);
+      await this.authenticationService.SignUp(email, password, nome);
       this.email = ''; 
       this.password = '';
     } catch (e){

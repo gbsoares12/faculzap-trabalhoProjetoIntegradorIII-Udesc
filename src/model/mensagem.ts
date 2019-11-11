@@ -5,5 +5,5 @@ export interface Mensagem {
     enviado_por: String;
     imagem_url: String;
     texto: String;
-    
+    foto_enviado_por: String;
 }

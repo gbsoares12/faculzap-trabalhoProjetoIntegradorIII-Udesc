@@ -53,7 +53,12 @@ export const routes: Routes = [
       {
         path: 'chat/:idGrupo',
         loadChildren: () => import('./views/chat/chat.module').then(m => m.ChatModule)
-      }
+      },
+      {
+        path: 'createGroup',
+        loadChildren: () => import('./views/create-group/create-group.module').then(m => m.CreateGroupModule)
+      },
+
     ]
   },
   { path: '**', component: P404Component }

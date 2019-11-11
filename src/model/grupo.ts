@@ -9,5 +9,5 @@ export interface Grupo {
     imagem_url: string;
     diciplina: Evento[];
     mensagens: Mensagem[];
-    uidUsuarios: User[];
+    usuarios: string[];
 }

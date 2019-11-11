@@ -13,22 +13,39 @@ export class GrupoService {
     this.userCurrent = JSON.parse(sessionStorage.getItem('userSession'));
   }
 
+  async get_todos_usuarios_alunos() {
+    let usuariosAlunos: any[] = [];
+    let querySnapshot = this.firestore.collection("/Usuarios/alunos/usuarios_alunos/").get();
+    await querySnapshot.forEach((snapshot) => {
+      if (!snapshot.empty) {
+        snapshot.forEach((aluno) => {
+          if (aluno.data().uid !== this.userCurrent.uid) {
+            usuariosAlunos = [...usuariosAlunos, {
+              "nome": aluno.data().displayName,
+              "uid": aluno.data().uid,
+            }]
+          }
+        })
+      }
+    })
+    return usuariosAlunos;
+  }
 
   async get_eventosCalendario(idGrupo: String) {
     let eventos: any[] = [];
-    eventos = [...eventos,{
+    eventos = [...eventos, {
       "title": "Wild Robert appears!!",
       "start": "2019-11-25",
       "end": "2019-11-30"
     }];
     let querySnapshot = this.firestore.collection(`/Grupos/${idGrupo}/diciplina/`).get();
     if (querySnapshot != null) {
-     await querySnapshot.forEach((docSnapshot) => {
+      await querySnapshot.forEach((docSnapshot) => {
         if (!docSnapshot.empty) {
           docSnapshot.forEach((evento) => {
             eventos = [...eventos, {
-              "start": new Date(evento.data().data_inicio["seconds"]* 1000),
-              "end": new Date(evento.data().data_fim["seconds"]* 1000),
+              "start": new Date(evento.data().data_inicio["seconds"] * 1000),
+              "end": new Date(evento.data().data_fim["seconds"] * 1000),
               "title": evento.data().nome,
             }]
           })
@@ -38,22 +55,21 @@ export class GrupoService {
     return eventos;
   }
 
-  create_grupo(grupo) {
-    let newGrupo: Grupo;
-    newGrupo = {
-      uid: grupo.uid,
-      titulo: grupo.titulo,
-      imagem_url: grupo.imagem_url,
-      diciplina: grupo.diciplina,
-      mensagens: grupo.mensagens,
-      uidUsuarios: grupo.uidUsuarios
-    };
-    return new Promise<any>((resolve, reject) => {
-      this.firestore
-        .collection("/Grupos/")
-        .add(newGrupo).then((_) => resolve(newGrupo)).catch((e) => { reject(e) });
-    });
+  create_grupo(grupo): boolean {
+    this.firestore
+      .collection("/Grupos/")
+      .add(grupo).then((resultSnapshot) => {
+        resultSnapshot.get().then((resultDocument) => {
+          if (resultDocument.exists) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      });
+      return false;
   }
+
 
   /*read_grupo: Chama o método snapshotChanges , que obterá registros e também será registrado para receber atualizações */
   read_grupo(uid: string) {
@@ -84,7 +100,7 @@ export class GrupoService {
       imagem_url: grupoDoc.data().imagem_url,
       diciplina: grupoDoc.data().diciplina,
       mensagens: grupoDoc.data().mensagens,
-      uidUsuarios: grupoDoc.data().uidUsuarios
+      usuarios: grupoDoc.data().uidUsuarios
     };
     return newGrupo;
   }
@@ -103,6 +119,7 @@ export class GrupoService {
       enviado_por: mensagemDoc.data().enviado_por,
       imagem_url: mensagemDoc.data().imagem_url,
       texto: mensagemDoc.data().texto,
+      foto_enviado_por: mensagemDoc.data().foto_enviado_por
     };
     return newMensagem;
   }

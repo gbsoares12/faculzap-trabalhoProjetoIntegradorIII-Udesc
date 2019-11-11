@@ -1,0 +1,35 @@
+<div class="app-body">
+    <main class="main d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card mx-2">
+                        <div class="card-body p-4">
+                            <form>
+                                <h1>Criar um novo Grupo</h1>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="pi pi-pencil"></i></span>
+                                    </div>
+                                    <input type="text" #titulo (ngModel)="titulo" class="form-control"
+                                        placeholder="Titulo" autocomplete="name" required>
+                                </div>
+                                <div style="margin-left: 17%;" class="input-group g-12">
+                                    <p-listbox [options]="alunos" name="integrantes" [(ngModel)]="selectedAlunos" multiple="multiple"
+                                        checkbox="checkbox" filter="filter" optionLabel="nome" [listStyle]="{'width':'100%'}">
+                                        <p-header>
+                                            <i class="pi pi-users"></i>
+                                            Participantes Alunos
+                                        </p-header>
+                                    </p-listbox>
+                                </div>
+                                <button style="margin-top: 10px;" type="button" (click)='criarGrupo(titulo.value)'
+                                    class="btn btn-block btn-success">Criar Grupo</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

@@ -38,7 +38,6 @@ export class ChatComponent implements OnInit {
     // Conf Calendario
     this.events = [];
     this.updateCalendar();
-    console.log(this.events);
     
 
     this.options = {
@@ -78,15 +77,14 @@ export class ChatComponent implements OnInit {
       data_envio: new Date(),
       enviado_por: this.currentUser.displayName,
       imagem_url: '',
-      texto: texto
+      texto: texto,
+      foto_enviado_por: this.currentUser.photoURL
     }
     this.grupoService.enviarMensagem(this.idGrupoAtivo, mensagem);
   }
 
   async updateCalendar() {
-    console.log(await this.grupoService.get_eventosCalendario(this.idGrupoAtivo));
     this.events = this.events.concat(await this.grupoService.get_eventosCalendario(this.idGrupoAtivo));
-    console.log(this.events);
 
     this.options = { ...this.options };
   }
