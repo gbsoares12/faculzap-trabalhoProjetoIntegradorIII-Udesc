@@ -17,7 +17,7 @@ export class ChatComponent implements OnInit {
   mensagensBox: Mensagem[] = [];
   mensagemSelected: Mensagem;
   inputMensagem: String;
-  events: any[];
+  events: any[] = [];
   options: any;
   // Conf do Grupo
   currentUser: User;
@@ -32,35 +32,15 @@ export class ChatComponent implements OnInit {
     this.idDocUser = sessionStorage.getItem('idDoc');
 
     this.tituloDisciplina = 'Projeto Integrador';
-    
   }
 
   ngOnInit() {
     // Conf Calendario
-    this.events = [
-      {
-        "title": "Trabalho de PIN III",
-        "start": "2019-10-14"
-      },
-      {
-        "title": "Evento Longo",
-        "start": "2019-10-01",
-        "end": "2019-10-08"
-      },
-      {
-        "title": "Repetido",
-        "start": "2019-10-17T20:30:00"
-      },
-      {
-        "title": "Repetido",
-        "start": "2019-10-19T20:50:00"
-      },
-      {
-        "title": "Aula EAD",
-        "start": "2019-10-25",
-        "end": "2019-10-30"
-      }
-    ];
+    this.events = [];
+    this.updateCalendar();
+    console.log(this.events);
+    
+
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       defaultDate: new Date,
@@ -73,8 +53,7 @@ export class ChatComponent implements OnInit {
       dateClick: (e) => {
         console.log(e);
       }
-    };
-    // Fim Calendario
+    };    // Fim Calendario
 
     this.grupoService.get_mensagensGrupo(this.idGrupoAtivo).subscribe(
       (next) => {
@@ -104,12 +83,11 @@ export class ChatComponent implements OnInit {
     this.grupoService.enviarMensagem(this.idGrupoAtivo, mensagem);
   }
 
-  updateCalendar() {
-    this.events = [...this.events, {
-      "title": "Conference",
-      "start": "2016-01-11",
-      "end": "2016-01-13"
-    }];
+  async updateCalendar() {
+    console.log(await this.grupoService.get_eventosCalendario(this.idGrupoAtivo));
+    this.events = this.events.concat(await this.grupoService.get_eventosCalendario(this.idGrupoAtivo));
+    console.log(this.events);
+
     this.options = { ...this.options };
   }
 

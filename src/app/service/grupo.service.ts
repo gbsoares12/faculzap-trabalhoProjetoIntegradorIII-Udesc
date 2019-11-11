@@ -13,6 +13,31 @@ export class GrupoService {
     this.userCurrent = JSON.parse(sessionStorage.getItem('userSession'));
   }
 
+
+  async get_eventosCalendario(idGrupo: String) {
+    let eventos: any[] = [];
+    eventos = [...eventos,{
+      "title": "Wild Robert appears!!",
+      "start": "2019-11-25",
+      "end": "2019-11-30"
+    }];
+    let querySnapshot = this.firestore.collection(`/Grupos/${idGrupo}/diciplina/`).get();
+    if (querySnapshot != null) {
+     await querySnapshot.forEach((docSnapshot) => {
+        if (!docSnapshot.empty) {
+          docSnapshot.forEach((evento) => {
+            eventos = [...eventos, {
+              "start": new Date(evento.data().data_inicio["seconds"]* 1000),
+              "end": new Date(evento.data().data_fim["seconds"]* 1000),
+              "title": evento.data().nome,
+            }]
+          })
+        }
+      })
+    }
+    return eventos;
+  }
+
   create_grupo(grupo) {
     let newGrupo: Grupo;
     newGrupo = {
