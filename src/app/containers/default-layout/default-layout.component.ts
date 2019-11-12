@@ -32,7 +32,7 @@ export class DefaultLayoutComponent implements OnDestroy {
     this.changes.disconnect();
   }
 
-  signOut() {
-    this.authenticationService.SignOut();
+  async signOut() {
+   await this.authenticationService.SignOut();
   }
 }
