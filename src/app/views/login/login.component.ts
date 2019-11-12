@@ -23,16 +23,8 @@ export class LoginComponent implements OnInit {
     this.router = router;
   }
 
-  signIn(email: string, password: string) {
-    this.authenticationService.SignIn(email, password)
-/*    
-  if(sessionStorage.getItem('userSession') != null){
-      this.showSuccess();
-    }else {
-      this.showError();
-  } 
-    
-    */
+  async signIn(email: string, password: string) {
+   await this.authenticationService.SignIn(email, password, "")
   }
 
   registrarConta() {

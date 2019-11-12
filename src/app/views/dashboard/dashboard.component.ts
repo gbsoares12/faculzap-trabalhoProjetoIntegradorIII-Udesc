@@ -1,11 +1,13 @@
-import { Grupo } from './../../../model/grupo';
-import { User } from './../../../model/user';
-import { GrupoService } from './../../service/grupo.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
-export class DashboardComponent {
-  constructor() { }
+export class DashboardComponent implements OnInit {
+  ngOnInit(): void {
+    console.log(JSON.parse(sessionStorage.getItem('userSession')));
+  }
+  constructor() {
+
+   }
 }

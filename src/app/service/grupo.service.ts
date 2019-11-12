@@ -13,13 +13,13 @@ export class GrupoService {
     this.userCurrent = JSON.parse(sessionStorage.getItem('userSession'));
   }
 
-  async get_todos_usuarios_alunos() {
+  async get_todos_usuarios_alunos(uidUserCurrent: string) {
     let usuariosAlunos: any[] = [];
     let querySnapshot = this.firestore.collection("/Usuarios/alunos/usuarios_alunos/").get();
     await querySnapshot.forEach((snapshot) => {
       if (!snapshot.empty) {
         snapshot.forEach((aluno) => {
-          if (aluno.data().uid !== this.userCurrent.uid) {
+          if (aluno.data().uid !== uidUserCurrent) {
             usuariosAlunos = [...usuariosAlunos, {
               "nome": aluno.data().displayName,
               "uid": aluno.data().uid,
@@ -31,13 +31,13 @@ export class GrupoService {
     return usuariosAlunos;
   }
 
-  async get_todos_usuarios_professores() {
+  async get_todos_usuarios_professores(uidUserCurrent: string) {
     let usuariosProfessores: any[] = [];
     let querySnapshot = this.firestore.collection("/Usuarios/professores/usuarios_professores/").get();
     await querySnapshot.forEach((snapshot) => {
       if (!snapshot.empty) {
         snapshot.forEach((professor) => {
-          if (professor.data().uid !== this.userCurrent.uid) {
+          if (professor.data().uid !== uidUserCurrent) {
             usuariosProfessores = [...usuariosProfessores, {
               "nome": professor.data().displayName,
               "uid": professor.data().uid,

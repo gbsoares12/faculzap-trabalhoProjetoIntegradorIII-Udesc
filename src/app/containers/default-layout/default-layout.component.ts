@@ -1,4 +1,4 @@
-import { Component, OnDestroy, Inject } from '@angular/core';
+import { Component, OnDestroy, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { navItems } from '../../_nav';
 
@@ -10,14 +10,17 @@ import { User } from '../../../model/user';
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html'
 })
-export class DefaultLayoutComponent implements OnDestroy {
+export class DefaultLayoutComponent implements OnDestroy, OnInit {
+  ngOnInit(): void {
+    this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
+  }
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
   currentUser: User;
   constructor(public authenticationService: AuthenticationService, @Inject(DOCUMENT) _document?: any) {
-    this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
+
     this.changes = new MutationObserver((mutations) => {
       this.sidebarMinimized = _document.body.classList.contains('sidebar-minimized');
     });
@@ -33,6 +36,6 @@ export class DefaultLayoutComponent implements OnDestroy {
   }
 
   async signOut() {
-   await this.authenticationService.SignOut();
+    await this.authenticationService.SignOut();
   }
 }

@@ -15,41 +15,42 @@ export class AuthenticationService {
     this.router = router;
   }
 
-  async SignIn(mail: string, password: string) {
-
-    if (this.angularFireAuth.auth.currentUser === null) {
-      await this.angularFireAuth.auth.signInWithEmailAndPassword(mail, password)
-        .catch((error) => {
-          this.router.navigate(['/login']);
-          console.error(error);
-        });
-
-      if (this.angularFireAuth.auth.currentUser !== null) {
-        this.userService.read_user(this.angularFireAuth.auth.currentUser.uid)
-          .then((snapshot) =>
-            snapshot.empty ? this.userService.create_user(this.angularFireAuth.auth.currentUser,"") : snapshot.forEach((doc) => {
-              this.MontaUsuario(doc.data(), doc.id);
-            })
-          );
-      }
-    } else {
-      await this.userService.read_user(this.angularFireAuth.auth.currentUser.uid)
-        .then((snapshot) =>
-          snapshot.forEach((doc) => {
-            this.MontaUsuario(doc.data(), doc.id);
+  async SignIn(mail: string, password: string, nome: string) {
+    await this.angularFireAuth.auth.signInWithEmailAndPassword(mail, password)
+      .catch((error) => {
+        this.router.navigate(['/login']);
+        console.error(error);
+      });
+    if (this.angularFireAuth.auth.currentUser !== null) {
+      let result = await this.userService.read_user(this.angularFireAuth.auth.currentUser.uid);
+      if (result.length > 0) {
+        this.MontaUsuario(result[0], result[2]);
+      } else {
+        let userVerified: User;
+        let idDoc: string;
+        await this.userService
+          .create_user(this.angularFireAuth.auth.currentUser, nome, null)
+          .then((doc) => {
+            if (doc.exists) {
+              userVerified = this.userService.montaObjUser(doc);
+              idDoc = doc.id
+              this.MontaUsuario(userVerified, idDoc);
+            } else {
+              this.router.navigate(['/login']);
+            }
           })
-        );
+      }
     }
+    this.router.navigate(['/dashboard']);
   }
 
-  get_auth(){
+  get_auth() {
     return this.angularFireAuth.auth;
   }
 
   MontaUsuario(docUser, idDoc) {
     sessionStorage.setItem('userSession', JSON.stringify(docUser));
     sessionStorage.setItem('idDoc', idDoc);
-    this.router.navigate(['/dashboard']);
   }
 
   async SignOut() {
@@ -59,31 +60,34 @@ export class AuthenticationService {
   }
 
   /* Sign up */
-  SignUp(email: string, password: string, nome: string) {
-    this.angularFireAuth
+  async SignUp(email: string, password: string, nome: string) {
+    await this.angularFireAuth
       .auth
       .createUserWithEmailAndPassword(email, password)
-      .then(res => {
+      .then(async res => {
         console.log('Successfully signed up!', res);
-        try {
-          this.userService.create_user(res.user, nome);
-        } catch (error) {
-          console.error(error);
-        }
-
-        this.router.navigate(['/login']);
       })
       .catch(error => {
         console.log('Something is wrong:', error.message);
+      }).finally(() => {
+        this.SignIn(email, password, nome)
       });
-
   }
 
   isUserLoggedIn() {
-    const user = this.angularFireAuth.auth.currentUser;
-    const userSession = sessionStorage.getItem('userSession');
-
-    console.log(!(user === null));
-    return !(user === null && userSession === null);
+    this.angularFireAuth.authState.subscribe(async (user) => {
+      if (user !== null) {
+        let result = await this.userService.read_user(this.angularFireAuth.auth.currentUser.uid);
+        if (result.length > 0) {
+          this.MontaUsuario(result[0], result[2]);
+        }
+        return true;
+      } else {
+        this.SignOut();
+        this.router.navigate(['/login']);
+        return false;
+      }
+    });
+    return true;
   }
 }

@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 
 export class CreateGroupComponent implements OnInit {
   async ngOnInit(){
-    this.alunos = await this.grupoService.get_todos_usuarios_alunos();
-    this.professores = await this.grupoService.get_todos_usuarios_professores();
+    this.alunos = await this.grupoService.get_todos_usuarios_alunos(this.currentUser.uid);
+    this.professores = await this.grupoService.get_todos_usuarios_professores(this.currentUser.uid);
   }
   currentUser: User;
   titulo: string;
@@ -21,7 +21,6 @@ export class CreateGroupComponent implements OnInit {
   professores: any[] = [];
   selectedProfessores: any[];
   constructor(private grupoService: GrupoService, router: Router) { 
-    
     this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
     this.router = router;
   }
