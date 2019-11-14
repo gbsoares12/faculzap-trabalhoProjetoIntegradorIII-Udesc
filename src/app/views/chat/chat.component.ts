@@ -38,7 +38,7 @@ export class ChatComponent implements OnInit {
     // Conf Calendario
     this.events = [];
     this.updateCalendar();
-    this.grupoService.get_grupoTitulo(this.idGrupoAtivo).then((docSnapshot )=>{
+    this.grupoService.get_objGrupo(this.idGrupoAtivo).then((docSnapshot )=>{
       docSnapshot.forEach((doc)=>{
         if(doc.exists){
           this.tituloDisciplina = doc.data().titulo

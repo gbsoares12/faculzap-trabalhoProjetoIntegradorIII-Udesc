@@ -45,8 +45,8 @@
                                         <p-fieldset legend="Remover Integrantes">
                                             <div class="input-group g-6">
                                                 <div style="margin-bottom: 10px;">
-                                                    <p-listbox [options]="alunos" name="integrantesAlunos"
-                                                        [(ngModel)]="selectedAlunos" multiple="multiple"
+                                                    <p-listbox [options]="alunosRemover" name="integrantesAlunos"
+                                                        [(ngModel)]="selectedAlunosRemover" multiple="multiple"
                                                         checkbox="checkbox" filter="filter" optionLabel="nome"
                                                         [listStyle]="{'max-height':'250px'}">
                                                         <p-header>
@@ -55,8 +55,8 @@
                                                         </p-header>
                                                     </p-listbox>
                                                 </div>
-                                                <p-listbox [options]="professores" name="integrantesProfessores"
-                                                    [(ngModel)]="selectedProfessores" multiple="multiple"
+                                                <p-listbox [options]="professoresRemover" name="integrantesProfessores"
+                                                    [(ngModel)]="selectedProfessoresRemover" multiple="multiple"
                                                     checkbox="checkbox" filter="filter" optionLabel="nome"
                                                     [listStyle]="{'max-height':'250px'}">
                                                     <p-header>
@@ -68,8 +68,7 @@
                                         </p-fieldset>
                                     </div>
                                 </div>
-                                <button style="margin-top: 10px;" type="button" (click)='criarGrupo(titulo.value)'
-                                    class="btn btn-block btn-success">Editar Grupo</button>
+                                <button style="margin-top: 10px;" type="button" class="btn btn-block btn-success">Editar Grupo</button>
                             </form>
                         </div>
                     </div>

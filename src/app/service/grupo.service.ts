@@ -8,10 +8,96 @@ import { User } from '../../model/user';
   providedIn: 'root'
 })
 export class GrupoService {
-  userCurrent: User;
-  constructor(private firestore: AngularFirestore) {
-    this.userCurrent = JSON.parse(sessionStorage.getItem('userSession'));
+  constructor(private firestore: AngularFirestore) { }
+
+  async get_todos_usuarios_alunos_edit_remover(arrayIntegrantes: string[], idUser: string) {
+    let usuariosAlunos: any[] = [];
+    let usuariosFiltrados: any[] = [];
+    let querySnapshot = this.firestore.collection("/Usuarios/alunos/usuarios_alunos/").get();
+    await querySnapshot.forEach((snapshot) => {
+      if (!snapshot.empty) {
+        snapshot.forEach((aluno) => {
+          if (idUser !== aluno.data().uid) {
+            usuariosAlunos = [...usuariosAlunos, {
+              "nome": aluno.data().displayName,
+              "uid": aluno.data().uid,
+            }]
+          }
+        })
+      }
+    })
+    usuariosFiltrados = usuariosAlunos.filter(function (element, index, array) {
+      if (arrayIntegrantes.indexOf(element.uid) !== -1)
+        return element;
+    });
+    return usuariosFiltrados;
   }
+
+  async get_todos_usuarios_professores_edit_remover(arrayIntegrantes: string[], uidUser: string) {
+    let usuariosProfessores: any[] = [];
+    let usuariosFiltrados: any[] = [];
+    let querySnapshot = this.firestore.collection("/Usuarios/professores/usuarios_professores/").get();
+    await querySnapshot.forEach((snapshot) => {
+      if (!snapshot.empty) {
+        snapshot.forEach((aluno) => {
+          if (uidUser !== aluno.data().uid) {
+            usuariosProfessores = [...usuariosProfessores, {
+              "nome": aluno.data().displayName,
+              "uid": aluno.data().uid,
+            }]
+          }
+        })
+      }
+    })
+    usuariosFiltrados = usuariosProfessores.filter(function (element, index, array) {
+      if (arrayIntegrantes.indexOf(element.uid) !== -1)
+        return element;
+    });
+    return usuariosFiltrados;
+  }
+
+  async get_todos_usuarios_professores_edit(arrayIntegrantes: string[]) {
+    let usuariosProfessores: any[] = [];
+    let usuariosFiltrados: any[] = [];
+    let querySnapshot = this.firestore.collection("/Usuarios/professores/usuarios_professores/").get();
+    await querySnapshot.forEach((snapshot) => {
+      if (!snapshot.empty) {
+        snapshot.forEach((professor) => {
+          usuariosProfessores = [...usuariosProfessores, {
+            "nome": professor.data().displayName,
+            "uid": professor.data().uid,
+          }]
+        })
+      }
+    })
+    usuariosFiltrados = usuariosProfessores.filter(function (element, index, array) {
+      if (arrayIntegrantes.indexOf(element.uid) == -1)
+        return element;
+    });
+    return usuariosFiltrados;
+  }
+
+  async get_todos_usuarios_alunos_edit(arrayIntegrantes: string[]) {
+    let usuariosAlunos: any[] = [];
+    let usuariosFiltrados: any[] = [];
+    let querySnapshot = this.firestore.collection("/Usuarios/alunos/usuarios_alunos/").get();
+    await querySnapshot.forEach((snapshot) => {
+      if (!snapshot.empty) {
+        snapshot.forEach((aluno) => {
+          usuariosAlunos = [...usuariosAlunos, {
+            "nome": aluno.data().displayName,
+            "uid": aluno.data().uid,
+          }]
+        })
+      }
+    })
+    usuariosFiltrados = usuariosAlunos.filter(function (element, index, array) {
+      if (arrayIntegrantes.indexOf(element.uid) == -1)
+        return element;
+    });
+    return usuariosFiltrados;
+  }
+
 
   async get_todos_usuarios_alunos(uidUserCurrent: string) {
     let usuariosAlunos: any[] = [];
@@ -86,14 +172,13 @@ export class GrupoService {
 
   /*read_grupo: Chama o método snapshotChanges , que obterá registros e também será registrado para receber atualizações */
   read_grupo(uid: string) {
-    let gruposAtivos: Grupo[] = [];
     var bdRef = this.firestore.collection('/Grupos/').ref;
     var query = bdRef
       .where("usuarios", "array-contains", uid);
     return query;
   }
 
-  async get_grupoTitulo(uidGrupo: string) {
+  async get_objGrupo(uidGrupo: string) {
     return this.firestore.doc(`/Grupos/${uidGrupo}`).get();
   }
 
@@ -104,7 +189,6 @@ export class GrupoService {
       titulo: grupoDoc.data().titulo,
       imagem_url: grupoDoc.data().imagem_url,
       diciplina: grupoDoc.data().diciplina,
-      mensagens: grupoDoc.data().mensagens,
       usuarios: grupoDoc.data().uidUsuarios,
       criador: grupoDoc.data().criador
     };
@@ -137,8 +221,8 @@ export class GrupoService {
   }
 
   /*update_grupo : atualiza o registro pegando o ID e chamando o método de atualização */
-  update_grupo(recordID, record) {
-    this.firestore.doc('/Usuarios/alunos/usuarios_alunos/' + recordID).update(record);
+  update_grupo(uidGroup, editedGroup) {
+    this.firestore.doc('/Grupos/' + uidGroup).update(editedGroup);
   }
   /*delete_grupo : chama o método de exclusão  ao registrar o ID*/
   delete_grupo(idGrupo) {

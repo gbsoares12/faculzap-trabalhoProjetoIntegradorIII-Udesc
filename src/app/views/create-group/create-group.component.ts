@@ -49,7 +49,6 @@ export class CreateGroupComponent implements OnInit {
         titulo: titulo,
         imagem_url: "",
         diciplina: [],
-        mensagens: [],
         usuarios: arrayUsuariosAlunos,
         criador: this.currentUser.uid
       };

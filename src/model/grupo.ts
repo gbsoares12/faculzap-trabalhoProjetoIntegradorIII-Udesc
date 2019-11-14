@@ -6,7 +6,6 @@ export interface Grupo {
     titulo: string;
     imagem_url: string;
     diciplina: Evento[];
-    mensagens: Mensagem[];
     usuarios: string[];
     criador: string;
 }

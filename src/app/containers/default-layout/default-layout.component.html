@@ -1,4 +1,5 @@
-<div style="margin-bottom: 2%;max-height: 70px;background-color: whitesmoke;width: 100%;border-bottom: 1px rgb(180, 175, 175) solid;">
+<div
+  style="position: inherit;margin-bottom: 2%;max-height: 70px;background-color: whitesmoke;width: 100%;border-bottom: 1px rgb(180, 175, 175) solid;">
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item dropdown" dropdown placement="bottom left">
       <div class="row" style="margin-top: 10px;width: 100%;margin-left: 30px;">
@@ -8,12 +9,11 @@
         </a>
         <img style="margin-left: 20px; height: 40px;width: 40px;margin-bottom: 10px;"
           src="{{this.currentUser === null ? '' : this.currentUser.photoURL}}" class="img-avatar" />
-          <h6 style="margin-left:10px;margin-top:10px">{{this.currentUser.displayName}}</h6>
+        <h6 style="margin-left:10px;margin-top:10px">{{this.currentUser.displayName}}</h6>
       </div>
-      <div style="position: absolute;margin-left: 50px;" class="dropdown-menu dropdown-menu-left" *dropdownMenu
+      <div style="position: absolute;margin-left: 25px;" class="dropdown-menu dropdown-menu-left" *dropdownMenu
         aria-labelledby="simple-dropdown">
-        <div class="dropdown-header text-center"><strong>Conta</strong></div>
-        <a class="dropdown-item" href=""><i class="fa fa-envelope-o"></i> Mensagens</a>
+        <div class="dropdown-header text-center"><strong>Menu do Usuário</strong></div>
         <a class="dropdown-item" routerLink="/dashboard" routerLinkActive="active"><i
             class="fa fa-comments"></i>Dashboard</a>
         <div class="dropdown-header text-center"><strong>Configuração</strong></div>
@@ -33,83 +33,6 @@
       <router-outlet></router-outlet>
     </div><!-- /.container-fluid -->
   </main>
-  <app-aside [fixed]="true" [display]="false">
-    <tabset>
-      <tab>
-        <ng-template tabHeading><i class="icon-list"></i></ng-template>
-        <div class="list-group list-group-accent">
-          <div
-            class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">
-            Hoje</div>
-          <div class="list-group-item list-group-item-accent-warning list-group-item-divider">
-            <div class="avatar float-right">
-              <img class="img-avatar" src="assets/img/avatars/8.jpg" alt="admin@bootstrapmaster.com">
-            </div>
-            <div>Prova de
-              <strong>PIN III</strong>
-            </div>
-            <small class="text-muted mr-3">
-              <i class="icon-calendar"></i>  19:00 - 22:20</small>
-          </div>
-          <div class="list-group-item list-group-item-accent-info">
-            <div class="avatar float-right">
-              <img class="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com">
-            </div>
-            <div>Trabalho de
-              <strong>Gerenciamento de Projetos</strong>
-            </div>
-            <small class="text-muted mr-3">
-              <i class="icon-calendar"></i>  20:40 - 22:00</small>
-          </div>
-          <div
-            class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">
-            Amanhã</div>
-
-          <div class="list-group-item list-group-item-accent-danger">
-            <div class="avatar float-right">
-              <img class="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com">
-            </div>
-            <div>Trabalho de
-              <strong>Gerenciamento de Projetos</strong>
-            </div>
-            <small class="text-muted mr-3">
-              <i class="icon-calendar"></i>  20:40 - 22:00</small>
-          </div>
-
-          <div class="list-group-item list-group-item-accent-danger">
-            <div class="avatar float-right">
-              <img class="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com">
-            </div>
-            <div>Trabalho de
-              <strong>Gerenciamento de Projetos</strong>
-            </div>
-            <small class="text-muted mr-3">
-              <i class="icon-calendar"></i>  20:40 - 22:00</small>
-          </div>
-        </div>
-      </tab>
-      <tab>
-        <ng-template tabHeading><i class="icon-speech"></i></ng-template>
-        <div class="p-3">
-          <div class="message">
-            <div class="py-3 pb-5 mr-3 float-left">
-              <div class="avatar">
-                <img src="assets/img/avatars/7.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
-                <span class="avatar-status badge-success"></span>
-              </div>
-            </div>
-            <div>
-              <small class="text-muted">Professor Mantau</small>
-              <small class="text-muted float-right mt-1">13:52</small>
-            </div>
-            <div class="text-truncate font-weight-bold">Trabalho de PIN III</div>
-            <small class="text-muted">Lembrando os alunos que o trabalho de PIN III deverá ser entregue 05/10</small>
-          </div>
-          <hr>
-        </div>
-      </tab>
-    </tabset>
-  </app-aside>
 </div>
 <app-footer>
   <span>2019 Udesc Ceavi.</span>
