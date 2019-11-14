@@ -4,6 +4,7 @@ import { navItems } from '../../_nav';
 
 import { AuthenticationService } from '../../shared/authentication.service';
 import { User } from '../../../model/user';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,14 +14,16 @@ import { User } from '../../../model/user';
 export class DefaultLayoutComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
+    if(this.currentUser != null){
+      this.router.navigateByUrl('/dashboard');
+    }
   }
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
   currentUser: User;
-  constructor(public authenticationService: AuthenticationService, @Inject(DOCUMENT) _document?: any) {
-
+  constructor(public router: Router, public authenticationService: AuthenticationService, @Inject(DOCUMENT) _document?: any) {
     this.changes = new MutationObserver((mutations) => {
       this.sidebarMinimized = _document.body.classList.contains('sidebar-minimized');
     });

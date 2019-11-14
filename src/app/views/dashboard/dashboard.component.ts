@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  templateUrl: 'dashboard.component.html'
+  templateUrl: 'dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
+
   ngOnInit(): void {
     console.log(JSON.parse(sessionStorage.getItem('userSession')));
   }
   constructor() {
 
-   }
+  }
 }

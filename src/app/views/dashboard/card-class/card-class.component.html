@@ -1,24 +1,28 @@
 <div class='col-sm-12 col-lg-12'>
-    <a class="nav-link" routerLink="/chat/{{idGrupo}}" routerLinkActive="active" style="text-decoration: none;">
-        <div class="card text-white bg-primary" style="width:400px;">
-            <div class="card-body pb-0">
+    <div class="card text-white bg-primary" style="width:400px;">
+        <div class="card-body pb-0">
+            <div *ngIf="donoGrupo">
                 <div class="btn-group float-right" dropdown>
                     <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
                         <i class="icon-settings"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                        <a class="dropdown-item" href="#">Editar</a>
-                        <a class="dropdown-item" href="#">Excluir Grupo</a>
+                        <a class="dropdown-item" routerLink="/chat/{{idGrupo}}" routerLinkActive="active">Editar</a>
+                        <a class="dropdown-item" (click)="confirmDeleteGroup()">Excluir Grupo</a>
                     </div>
                 </div>
-                <div class="text-value card-title">{{titulo}}</div>
-                <div style="margin-left: 20%">
-                    <div class='avatar'></div> {{integrantes}} Membros
-                </div>
             </div>
-            <div class="card-footer" style="height:200px">
-
+            <a class="nav-link" routerLink="/chat/{{idGrupo}}" routerLinkActive="active"
+                style="color: white;text-decoration: none;">
+                <div class="text-value card-title">{{titulo}}</div>
+            </a>
+            <div style="margin-left: 20%">
+                <div class='avatar'></div> {{integrantes}} Membros
             </div>
         </div>
-    </a>
+        <div class="card-footer" style="height:200px">
+        </div>
+    </div>
 </div>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+<p-toast position="bottom-right"></p-toast>

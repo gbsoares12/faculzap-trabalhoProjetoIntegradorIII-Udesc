@@ -12,6 +12,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { CommonModule} from '@angular/common';
 import {VirtualScrollerModule} from 'primeng/virtualscroller';
 import { ListboxModule } from 'primeng/listbox';
+import {ToastModule} from 'primeng/toast';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ListboxModule } from 'primeng/listbox';
     ButtonsModule.forRoot(),
     CommonModule,
     VirtualScrollerModule,
-    ListboxModule
+    ListboxModule,
+    ToastModule
   ],
   declarations: [ CreateGroupComponent ],
 })

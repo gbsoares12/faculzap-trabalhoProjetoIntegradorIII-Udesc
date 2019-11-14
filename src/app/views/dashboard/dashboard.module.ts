@@ -10,6 +10,8 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { CardClassComponent } from './card-class/card-class.component';
 import { ContainerMateriaCardComponent } from './container-materia-card/container-materia-card.component';
 import { DataViewModule } from 'primeng/dataview';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ToastModule} from 'primeng/toast';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { DataViewModule } from 'primeng/dataview';
     BsDropdownModule,
     DataViewModule,
     CommonModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    ConfirmDialogModule,
+    ToastModule
   ],
   declarations: [ DashboardComponent, CardClassComponent, ContainerMateriaCardComponent ]
 })

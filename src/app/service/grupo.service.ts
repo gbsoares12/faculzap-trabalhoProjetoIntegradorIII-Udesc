@@ -113,7 +113,8 @@ export class GrupoService {
       imagem_url: grupoDoc.data().imagem_url,
       diciplina: grupoDoc.data().diciplina,
       mensagens: grupoDoc.data().mensagens,
-      usuarios: grupoDoc.data().uidUsuarios
+      usuarios: grupoDoc.data().uidUsuarios,
+      criador: grupoDoc.data().criador
     };
     return newGrupo;
   }
@@ -160,8 +161,8 @@ export class GrupoService {
     this.firestore.doc('/Usuarios/alunos/usuarios_alunos/' + recordID).update(record);
   }
   /*delete_grupo : chama o método de exclusão  ao registrar o ID*/
-  delete_grupo(record_id) {
-    this.firestore.doc('/Usuarios/alunos/usuarios_alunos/' + record_id).delete();
+  delete_grupo(idGrupo) {
+    this.firestore.doc(`/Grupos/${idGrupo}`).delete();
   }
 
 }
