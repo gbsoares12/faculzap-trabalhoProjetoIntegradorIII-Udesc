@@ -16,8 +16,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <p-fieldset legend="Adicionar Integrantes">
-                                            <div style="margin-left: 15%;" class="input-group g-6">
+                                        <p-fieldset class="align-items-center" legend="Adicionar Integrantes">
+                                            <div class="input-group g-6">
                                                 <div style="margin-bottom: 10px;">
                                                     <p-listbox [options]="alunos" name="integrantesAlunos"
                                                         [(ngModel)]="selectedAlunos" multiple="multiple"
@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <p-fieldset legend="Remover Integrantes">
-                                            <div style="margin-left: 15%;" class="input-group g-6">
+                                            <div class="input-group g-6">
                                                 <div style="margin-bottom: 10px;">
                                                     <p-listbox [options]="alunos" name="integrantesAlunos"
                                                         [(ngModel)]="selectedAlunos" multiple="multiple"

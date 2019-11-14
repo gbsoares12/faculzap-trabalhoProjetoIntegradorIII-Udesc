@@ -1,6 +1,6 @@
 .ui-listbox {
     padding: 0;
-    min-width: 300px !important;
+    width: 100% !important;
     background: #ffffff;
     border: 1px solid #a6a6a6;
   }
