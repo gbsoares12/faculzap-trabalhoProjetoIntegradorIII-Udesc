@@ -80,7 +80,7 @@ export class GrupoService {
           }
         })
       });
-      return false;
+    return false;
   }
 
 
@@ -89,20 +89,12 @@ export class GrupoService {
     let gruposAtivos: Grupo[] = [];
     var bdRef = this.firestore.collection('/Grupos/').ref;
     var query = bdRef
-      .where("usuarios", "array-contains", uid)
-      .get();
-    query.then((snapshot) => {
-      if (!snapshot.empty) {
-        snapshot.forEach((doc) => {
-          gruposAtivos.push(this.criaObjGrupo(doc))
-        });
-      }
-    })
-    return gruposAtivos;
+      .where("usuarios", "array-contains", uid);
+    return query;
   }
 
-  get_grupoTitulo(tituloGrupo: string) {
-
+  async get_grupoTitulo(uidGrupo: string) {
+    return this.firestore.doc(`/Grupos/${uidGrupo}`).get();
   }
 
   criaObjGrupo(grupoDoc) {
@@ -137,18 +129,6 @@ export class GrupoService {
     };
     return newMensagem;
   }
-
-  // formataTexto(textoMsg: String) {
-  //   let stringCompleta = "";
-  //   let quantidadeQuebraLinha = parseInt((textoMsg.length / 230).toPrecision(1));
-
-  //   if (quantidadeQuebraLinha > 0) {
-  //     for (let index = 0; index < quantidadeQuebraLinha; index++) {
-  //       stringCompleta = textoMsg.substr(0, 230) + "\n" + textoMsg.substr(230, textoMsg.length)
-  //     }
-  //   }
-  //   return stringCompleta === "" ? textoMsg : stringCompleta
-  // }
 
   enviarMensagem(idGrupo: String, msg: Mensagem) {
     this.firestore

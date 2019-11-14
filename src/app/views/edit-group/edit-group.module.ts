@@ -5,19 +5,20 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import {FullCalendarModule} from 'primeng/fullcalendar';
-import { CreateGroupComponent } from './create-group.component';
-import { CreateGroupRoutingModule } from './create-group-routing.module';
+import { EditGroupComponent } from './edit-group.component';
+import { EditGroupRoutingModule } from './edit-group-routing.module';
 import { DataViewModule } from 'primeng/dataview';
 import { CommonModule} from '@angular/common';
 import {VirtualScrollerModule} from 'primeng/virtualscroller';
 import { ListboxModule } from 'primeng/listbox';
 import {ToastModule} from 'primeng/toast';
+import {FieldsetModule} from 'primeng/fieldset';
 
 
 @NgModule({
   imports: [
     FormsModule,
-    CreateGroupRoutingModule,
+    EditGroupRoutingModule,
     ChartsModule,
     BsDropdownModule,
     FullCalendarModule,
@@ -26,8 +27,10 @@ import {ToastModule} from 'primeng/toast';
     CommonModule,
     VirtualScrollerModule,
     ListboxModule,
-    ToastModule
+    ToastModule,
+    FieldsetModule
   ],
-  declarations: [ CreateGroupComponent ],
+  declarations: [ EditGroupComponent ],
 })
-export class CreateGroupModule { }
+
+export class EditGroupModule { }

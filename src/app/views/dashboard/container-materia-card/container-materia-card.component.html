@@ -1,5 +1,10 @@
 <div *ngIf="gruposAtivos">
-    <div *ngFor="let grupo of gruposAtivos">
-        <app-card-class criador="{{grupo.criador}}" idGrupo="{{grupo.uid}}" titulo="{{grupo.titulo}}" onlines="{{grupo.usuarios}}"></app-card-class>
+    <div class="row">
+        <div *ngFor="let grupo of gruposAtivos">
+            <div class="col-lg-4">
+            <app-card-class criador="{{grupo.criador}}" idGrupo="{{grupo.uid}}" titulo="{{grupo.titulo}}"
+                onlines="{{grupo.usuarios}}"></app-card-class>
+            </div>
+        </div>
     </div>
 </div>

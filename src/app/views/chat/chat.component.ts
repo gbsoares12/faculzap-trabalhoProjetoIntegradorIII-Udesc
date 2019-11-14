@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit {
   currentUser: User;
   idDocUser: string;
   idGrupoAtivo: string;
-  
+
 
   constructor(private grupoService: GrupoService, private router: ActivatedRoute) {
     this.router.params.subscribe(res => this.idGrupoAtivo = res.idGrupo);
@@ -38,7 +38,13 @@ export class ChatComponent implements OnInit {
     // Conf Calendario
     this.events = [];
     this.updateCalendar();
-    
+    this.grupoService.get_grupoTitulo(this.idGrupoAtivo).then((docSnapshot )=>{
+      docSnapshot.forEach((doc)=>{
+        if(doc.exists){
+          this.tituloDisciplina = doc.data().titulo
+        }
+      })
+    })
 
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -61,7 +67,7 @@ export class ChatComponent implements OnInit {
           next.forEach((doc) => {
             this.mensagensBox.push(this.grupoService.criaObjMensagem(doc.payload.doc))
           });
-          this.mensagensBox.sort((a,b)=> a.data_envio < b.data_envio ? 1 : -1);
+          this.mensagensBox.sort((a, b) => a.data_envio < b.data_envio ? 1 : -1);
         }
       },
       (error) => { },

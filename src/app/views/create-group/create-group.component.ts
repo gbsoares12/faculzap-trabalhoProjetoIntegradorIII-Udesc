@@ -34,10 +34,16 @@ export class CreateGroupComponent implements OnInit {
     } else {
       let newGrupo: Grupo;
       let arrayUsuariosAlunos = [this.currentUser.uid];
-
-      this.selectedAlunos.forEach((aluno) => {
-        arrayUsuariosAlunos = [...arrayUsuariosAlunos, aluno["uid"]]
-      })
+      if (this.selectedAlunos !== undefined) {
+        this.selectedAlunos.forEach((aluno) => {
+          arrayUsuariosAlunos = [...arrayUsuariosAlunos, aluno["uid"]]
+        })
+      }
+      if (this.selectedProfessores !== undefined) {
+        this.selectedProfessores.forEach((professor) => {
+          arrayUsuariosAlunos = [...arrayUsuariosAlunos, professor["uid"]]
+        })
+      }
       newGrupo = {
         uid: "",
         titulo: titulo,

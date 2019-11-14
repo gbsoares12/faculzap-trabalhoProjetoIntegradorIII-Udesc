@@ -22,7 +22,17 @@ export class ContainerMateriaCardComponent implements OnInit {
     this.getGrupos();
   }
 
-  async getGrupos() {
-    this.gruposAtivos = await this.grupoService.read_grupo(this.currentUser.uid)
+  getGrupos() {
+    this.grupoService.read_grupo(this.currentUser.uid).onSnapshot((onNext) => {
+      if (!onNext.empty) {
+        this.gruposAtivos = [];
+        onNext.docs.forEach((doc) => {
+          this.gruposAtivos.push(this.grupoService.criaObjGrupo(doc))
+        })
+      }
+    }),
+      (onError) => {
+        console.error(onError)
+      }
   }
 }

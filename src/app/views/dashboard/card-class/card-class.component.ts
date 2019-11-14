@@ -35,7 +35,7 @@ export class CardClassComponent implements OnInit {
   currentUser: User;
   donoGrupo: boolean = false;
 
-  constructor(public router: Router, private grupoService: GrupoService, 
+  constructor(public router: Router, private grupoService: GrupoService,
     private confirmationService: ConfirmationService, private messageService: MessageService) {
     this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
   }

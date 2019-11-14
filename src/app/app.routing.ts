@@ -58,7 +58,10 @@ export const routes: Routes = [
         path: 'createGroup',
         loadChildren: () => import('./views/create-group/create-group.module').then(m => m.CreateGroupModule)
       },
-
+      {
+        path: 'editGroup/:idGrupo',
+        loadChildren: () => import('./views/edit-group/edit-group.module').then(m => m.EditGroupModule)
+      },
     ]
   },
   { path: '**', component: P404Component }
