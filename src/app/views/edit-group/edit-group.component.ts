@@ -14,6 +14,7 @@ import { Grupo } from '../../../model/grupo';
 export class EditGroupComponent implements OnInit {
   idGrupoAtivo: string;
   currentUser: User;
+  tituloText: string;
   titulo: string;
 
   alunos: any[] = [];
@@ -29,14 +30,15 @@ export class EditGroupComponent implements OnInit {
   grupoAtivo: Grupo;
   usuariosIntegrantes: string[];
 
-  routers: Router;
+  routerNavigation: Router;
 
   constructor(private router: ActivatedRoute,
     private grupoService: GrupoService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    routers: Router) {
     this.router.params.subscribe(res => this.idGrupoAtivo = res.idGrupo);
     this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
-
+    this.routerNavigation = routers
   }
 
   async ngOnInit() {
@@ -44,6 +46,7 @@ export class EditGroupComponent implements OnInit {
       await documentSnapshot.forEach((grupoDoc) => {
         if (grupoDoc.exists) {
           this.usuariosIntegrantes = grupoDoc.data().usuarios
+          this.tituloText = grupoDoc.data().titulo
         }
       });
     })
@@ -71,75 +74,78 @@ export class EditGroupComponent implements OnInit {
   }
   editarGrupo(titulo: string) {
 
-    // if (titulo.length < 6) {
-    //   this.showError();
-    // } else {
-    let arrayAdicionarNovosIntegrantes = [];
-    let newGrupo: Grupo;
-    if (this.selectedAlunos !== undefined || this.selectedProfessores !== undefined) {
-      arrayAdicionarNovosIntegrantes = this.addNovosIntegrantes();
-    }
-
-    //Para remover os integrantes já ativos
-    let arrayAlunosRemoverUid = [];
-    let arraySemIntegrantesRemovidos = [];
-    if (this.selectedAlunosRemover !== undefined) {
-      if (this.selectedAlunosRemover.length !== 0) {
-        this.selectedAlunosRemover.forEach((aluno) => {
-          arrayAlunosRemoverUid.push(aluno.uid);
-        })
-        arraySemIntegrantesRemovidos = this.usuariosIntegrantes.filter(function (element, index, array) {
-          if (arrayAlunosRemoverUid.indexOf(element) === -1)
-            return element;
-        });
-      }
-    }
-
-    let arrayProfessoresRemoverUid = [];
-    if (this.selectedProfessoresRemover !== undefined) {
-      if (this.selectedProfessoresRemover.length !== 0) {
-        this.selectedProfessoresRemover.forEach((professor) => {
-          arrayProfessoresRemoverUid.push(professor.uid);
-        })
-        arraySemIntegrantesRemovidos = arraySemIntegrantesRemovidos.filter(function (element, index, array) {
-          if (arrayProfessoresRemoverUid.indexOf(element) === -1)
-            return element;
-        });
-      }
-    }
-
-    //Array com os integrante removidos
-    let arrayNovoIntegrantes = [];
-    if (arraySemIntegrantesRemovidos.length > 0 || arrayAdicionarNovosIntegrantes.length > 0) {
-      if (arraySemIntegrantesRemovidos.length > 0) {
-        arraySemIntegrantesRemovidos.forEach((uidIntegrante) => {
-          arrayNovoIntegrantes = [...arrayNovoIntegrantes, uidIntegrante]
-        })
-      }
-      if (arrayAdicionarNovosIntegrantes.length > 0) {
-        arrayAdicionarNovosIntegrantes.forEach((uidNovosIntegrantes) => {
-          arrayNovoIntegrantes = [...arrayNovoIntegrantes, uidNovosIntegrantes]
-        })
-      }
+    if (titulo.length < 6) {
+      this.showError();
     } else {
-      arrayNovoIntegrantes = this.usuariosIntegrantes;
+      let arrayAdicionarNovosIntegrantes = [];
+      let newGrupo: Grupo;
+      if (this.selectedAlunos !== undefined || this.selectedProfessores !== undefined) {
+        arrayAdicionarNovosIntegrantes = this.addNovosIntegrantes();
+      }
+
+      //Para remover os integrantes já ativos
+      let arrayAlunosRemoverUid = [];
+      let arraySemIntegrantesRemovidos = [];
+      if (this.selectedAlunosRemover !== undefined) {
+        if (this.selectedAlunosRemover.length !== 0) {
+          this.selectedAlunosRemover.forEach((aluno) => {
+            arrayAlunosRemoverUid.push(aluno.uid);
+          })
+          arraySemIntegrantesRemovidos = this.usuariosIntegrantes.filter(function (element, index, array) {
+            if (arrayAlunosRemoverUid.indexOf(element) === -1)
+              return element;
+          });
+        }
+      }
+
+      let arrayProfessoresRemoverUid = [];
+      if (this.selectedProfessoresRemover !== undefined) {
+        if (this.selectedProfessoresRemover.length !== 0) {
+          this.selectedProfessoresRemover.forEach((professor) => {
+            arrayProfessoresRemoverUid.push(professor.uid);
+          })
+          arraySemIntegrantesRemovidos = arraySemIntegrantesRemovidos.filter(function (element, index, array) {
+            if (arrayProfessoresRemoverUid.indexOf(element) === -1)
+              return element;
+          });
+        }
+      }
+
+      //Array com os integrante removidos
+      let arrayNovoIntegrantes: string[]= [];
+      if (arraySemIntegrantesRemovidos.length > 0 || arrayAdicionarNovosIntegrantes.length > 0) {
+        if (arraySemIntegrantesRemovidos.length > 0) {
+          arraySemIntegrantesRemovidos.forEach((uidIntegrante) => {
+            arrayNovoIntegrantes = [...arrayNovoIntegrantes, uidIntegrante]
+          })
+        }
+        if (arrayAdicionarNovosIntegrantes.length > 0) {
+          arrayAdicionarNovosIntegrantes.forEach((uidNovosIntegrantes) => {
+            arrayNovoIntegrantes = [...arrayNovoIntegrantes, uidNovosIntegrantes]
+          })
+        }
+        //Caso não tenha nem um integrante sendo removido
+        if (arraySemIntegrantesRemovidos.length === 0) {
+          this.usuariosIntegrantes.forEach((uidIntegrante)=>{
+            arrayNovoIntegrantes = [...arrayNovoIntegrantes, uidIntegrante]
+          })
+          
+        }
+      } else {
+        arrayNovoIntegrantes = this.usuariosIntegrantes;
+      }
+
+      newGrupo = {
+        uid: "",
+        titulo: titulo,
+        imagem_url: "",
+        usuarios: arrayNovoIntegrantes,
+        criador: this.currentUser.uid
+      };
+      this.grupoService.update_grupo(this.idGrupoAtivo, newGrupo);
+      this.routerNavigation.navigate(['/dashboard']);
+      this.showSuccess();
     }
-
-
-    console.log(arrayNovoIntegrantes);
-
-    newGrupo = {
-      uid: "",
-      titulo: titulo,
-      imagem_url: "",
-      diciplina: [],
-      usuarios: [],
-      criador: this.currentUser.uid
-    };
-    //this.grupoService.create_grupo(newGrupo);
-    //this.routers.navigate(['/dashboard']);
-    this.showSuccess();
-    // }
   }
 
   showSuccess() {

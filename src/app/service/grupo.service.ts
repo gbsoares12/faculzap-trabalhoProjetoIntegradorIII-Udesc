@@ -188,7 +188,6 @@ export class GrupoService {
       uid: grupoDoc.id,
       titulo: grupoDoc.data().titulo,
       imagem_url: grupoDoc.data().imagem_url,
-      diciplina: grupoDoc.data().diciplina,
       usuarios: grupoDoc.data().uidUsuarios,
       criador: grupoDoc.data().criador
     };

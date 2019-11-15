@@ -5,13 +5,13 @@
                 <div class="col-md-12 mx-auto">
                     <div class="card mx-2">
                         <div class="card-body">
-                            <form>
+                            
                                 <h1>Editar Grupo</h1>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="pi pi-pencil"></i></span>
                                     </div>
-                                    <input type="text" #titulo (ngModel)="titulo" class="form-control"
+                                    <input type="text" #titulo="ngModel" [(ngModel)]="tituloText" class="form-control"
                                         placeholder="Titulo" autocomplete="name" required>
                                 </div>
                                 <div class="row">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <button style="margin-top: 10px;" type="button" (click)="editarGrupo(titulo.value)" class="btn btn-block btn-success">Editar Grupo</button>
-                            </form>
+                            
                         </div>
                     </div>
                 </div>
