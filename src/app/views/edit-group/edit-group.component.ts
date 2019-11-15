@@ -1,6 +1,5 @@
-import { DocumentSnapshot } from '@angular/fire/firestore';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { User } from '../../../model/user';
 import { GrupoService } from '../../service/grupo.service';
@@ -30,7 +29,11 @@ export class EditGroupComponent implements OnInit {
   grupoAtivo: Grupo;
   usuariosIntegrantes: string[];
 
-  constructor(private router: ActivatedRoute, private grupoService: GrupoService) {
+  routers: Router;
+
+  constructor(private router: ActivatedRoute,
+    private grupoService: GrupoService,
+    private messageService: MessageService) {
     this.router.params.subscribe(res => this.idGrupoAtivo = res.idGrupo);
     this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
 
@@ -48,5 +51,102 @@ export class EditGroupComponent implements OnInit {
     this.professores = await this.grupoService.get_todos_usuarios_professores_edit(this.usuariosIntegrantes);
     this.alunosRemover = await this.grupoService.get_todos_usuarios_alunos_edit_remover(this.usuariosIntegrantes, this.currentUser.uid);
     this.professoresRemover = await this.grupoService.get_todos_usuarios_professores_edit_remover(this.usuariosIntegrantes, this.currentUser.uid);
+  }
+
+  addNovosIntegrantes() {
+    let arrayUsuariosAlunos = [];
+    //Para adicionar novos integrantes
+    if (this.selectedAlunos !== undefined) {
+      this.selectedAlunos.forEach((aluno) => {
+        arrayUsuariosAlunos = [...arrayUsuariosAlunos, aluno["uid"]]
+      })
+    }
+    if (this.selectedProfessores !== undefined) {
+      this.selectedProfessores.forEach((professor) => {
+        arrayUsuariosAlunos = [...arrayUsuariosAlunos, professor["uid"]]
+      })
+    }
+
+    return arrayUsuariosAlunos;
+  }
+  editarGrupo(titulo: string) {
+
+    // if (titulo.length < 6) {
+    //   this.showError();
+    // } else {
+    let arrayAdicionarNovosIntegrantes = [];
+    let newGrupo: Grupo;
+    if (this.selectedAlunos !== undefined || this.selectedProfessores !== undefined) {
+      arrayAdicionarNovosIntegrantes = this.addNovosIntegrantes();
+    }
+
+    //Para remover os integrantes já ativos
+    let arrayAlunosRemoverUid = [];
+    let arraySemIntegrantesRemovidos = [];
+    if (this.selectedAlunosRemover !== undefined) {
+      if (this.selectedAlunosRemover.length !== 0) {
+        this.selectedAlunosRemover.forEach((aluno) => {
+          arrayAlunosRemoverUid.push(aluno.uid);
+        })
+        arraySemIntegrantesRemovidos = this.usuariosIntegrantes.filter(function (element, index, array) {
+          if (arrayAlunosRemoverUid.indexOf(element) === -1)
+            return element;
+        });
+      }
+    }
+
+    let arrayProfessoresRemoverUid = [];
+    if (this.selectedProfessoresRemover !== undefined) {
+      if (this.selectedProfessoresRemover.length !== 0) {
+        this.selectedProfessoresRemover.forEach((professor) => {
+          arrayProfessoresRemoverUid.push(professor.uid);
+        })
+        arraySemIntegrantesRemovidos = arraySemIntegrantesRemovidos.filter(function (element, index, array) {
+          if (arrayProfessoresRemoverUid.indexOf(element) === -1)
+            return element;
+        });
+      }
+    }
+
+    //Array com os integrante removidos
+    let arrayNovoIntegrantes = [];
+    if (arraySemIntegrantesRemovidos.length > 0 || arrayAdicionarNovosIntegrantes.length > 0) {
+      if (arraySemIntegrantesRemovidos.length > 0) {
+        arraySemIntegrantesRemovidos.forEach((uidIntegrante) => {
+          arrayNovoIntegrantes = [...arrayNovoIntegrantes, uidIntegrante]
+        })
+      }
+      if (arrayAdicionarNovosIntegrantes.length > 0) {
+        arrayAdicionarNovosIntegrantes.forEach((uidNovosIntegrantes) => {
+          arrayNovoIntegrantes = [...arrayNovoIntegrantes, uidNovosIntegrantes]
+        })
+      }
+    } else {
+      arrayNovoIntegrantes = this.usuariosIntegrantes;
+    }
+
+
+    console.log(arrayNovoIntegrantes);
+
+    newGrupo = {
+      uid: "",
+      titulo: titulo,
+      imagem_url: "",
+      diciplina: [],
+      usuarios: [],
+      criador: this.currentUser.uid
+    };
+    //this.grupoService.create_grupo(newGrupo);
+    //this.routers.navigate(['/dashboard']);
+    this.showSuccess();
+    // }
+  }
+
+  showSuccess() {
+    this.messageService.add({ severity: 'success', summary: 'Criado com sucesso!', detail: 'O grupo já está ativo para o uso.' });
+  }
+
+  showError() {
+    this.messageService.add({ severity: 'error', summary: 'Insira um titulo corretamente!', detail: 'Erro ao criar grupo.' });
   }
 }
