@@ -10,7 +10,8 @@ import { ChatRoutingModule } from './chat-routing.module';
 import { DataViewModule } from 'primeng/dataview';
 import { MensagemComponent } from './mensagem/mensagem.component';
 import { CommonModule} from '@angular/common';
-import {VirtualScrollerModule} from 'primeng/virtualscroller';
+import { VirtualScrollerModule } from 'primeng/virtualscroller';
+import {ToastModule} from 'primeng/toast';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {VirtualScrollerModule} from 'primeng/virtualscroller';
     DataViewModule,
     ButtonsModule.forRoot(),
     CommonModule,
-    VirtualScrollerModule
+    VirtualScrollerModule,
+    ToastModule
   ],
   declarations: [ ChatComponent, MensagemComponent ]
 })

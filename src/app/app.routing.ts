@@ -8,6 +8,7 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
+import { OpenFileComponent } from './views/chat/open-file/open-file.component';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,14 @@ export const routes: Routes = [
     data: {
       title: 'Register Page'
     }
+  },
+  {
+    path: 'openfile',
+    component: OpenFileComponent,
+    data: {
+      title: 'Open File'
+    },
+    canActivate:[AuthGaurdService],
   },
   {
     path: '',

@@ -51,8 +51,11 @@ import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule} from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 /* Auth service */
 import { AuthenticationService } from './shared/authentication.service';
+import { OpenFileComponent } from './views/chat/open-file/open-file.component';
+
 
 @NgModule({
   imports: [
@@ -74,7 +77,8 @@ import { AuthenticationService } from './shared/authentication.service';
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    ToastModule
+    ToastModule,
+    AngularFireStorageModule,
   ],
   declarations: [
     AppComponent,
@@ -82,7 +86,8 @@ import { AuthenticationService } from './shared/authentication.service';
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    OpenFileComponent
   ],
   providers: [{
     provide: LocationStrategy,

@@ -3,7 +3,17 @@
     <div style="margin-left: 10px;">
         <strong>{{nomeUser}}</strong>, diz:
     </div>
-    <div style="margin-left: 5px;max-width: 100%;">
+    <div *ngIf='temTexto' style="margin-left: 5px;max-width: 100%;">
         {{texto}}
+    </div>
+    <div *ngIf='!temTexto && !fileIsImage' style="margin-left: 5px;max-width: 100%;">
+        <a class="nav-link" target="_blank" href="{{arquivo_url}}">
+            <i style="font-size: 100px;" class="pi pi-file-pdf"></i>
+        </a>
+    </div>
+    <div *ngIf='!temTexto && fileIsImage' style="margin-left: 5px;max-width: 100%;">
+        <a class="nav-link" (click)="goToDetalhesByState()">
+            <img height="250px" width="250px" src="{{imagem_url}}" class="img" />
+        </a>
     </div>
 </div>

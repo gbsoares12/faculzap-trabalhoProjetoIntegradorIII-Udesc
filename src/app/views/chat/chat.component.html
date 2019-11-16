@@ -9,16 +9,19 @@
             </div>
             <!--/.row-->
             <div class="row">
-                <div style="margin-top: 50px; min-height: 500px;" class="col-sm-12">
+                <div style="margin-top: 50px; min-height: 400px;" class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
                             <strong>Chat da Turma</strong>
                         </div>
-                        <div class="card-body" style="height: 600px;">
-                            <cdk-virtual-scroll-viewport itemSize="5" style="height: 580px; width: 100%;">
-                                <div *cdkVirtualFor="let mensagem of mensagensBox" style="padding-left: 5px; max-width: 1000px;">
+                        <div class="card-body" style="height: 400px;">
+                            <cdk-virtual-scroll-viewport itemSize="5" style="height: 370px; width: 100%;">
+                                <div *cdkVirtualFor="let mensagem of mensagensBox"
+                                    style="padding-left: 5px; max-width: 1000px;">
                                     <div class="col-sm-12 col-g-12">
-                                        <app-mensagem foto_enviado_por="{{mensagem.foto_enviado_por}}" nomeUser="{{mensagem.enviado_por}}" texto="{{mensagem.texto}}">
+                                        <app-mensagem foto_enviado_por="{{mensagem.foto_enviado_por}}"
+                                            nomeUser="{{mensagem.enviado_por}}" texto="{{mensagem.texto}}"
+                                            imagem_url="{{mensagem.imagem_url}}" arquivo_url="{{mensagem.arquivo_url}}">
                                         </app-mensagem>
                                     </div>
                                 </div>
@@ -27,12 +30,14 @@
                         <div class="card-footer px-3 py-2">
                             <strong>Enviar Mensagem</strong>
                             <div class="input-group" style="margin-top: 10px">
-                                <input type="text" #textoMensagem pInputText id="input-enviar" name="input-enviar"
+                                <input style="height: 42px;" type="text" #textoMensagem pInputText id="input-enviar" name="input-enviar"
                                     class="form-control">
                                 <span class="input-group-append">
                                     <button type="button" p-button
                                         (click)="addMensagem(textoMensagem.value); textoMensagem.value = ''"
                                         class="btn btn-secondary">Enviar</button>
+                                    <input type="file" (change)="inputFileChange($event)"
+                                        class="btn btn-secondary" />
                                 </span>
                             </div>
                         </div>
@@ -63,3 +68,4 @@
     </div>
     <!--/.card-->
 </div>
+<p-toast position="bottom-right"></p-toast>

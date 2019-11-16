@@ -1,14 +1,14 @@
 import { Mensagem } from './../../model/mensagem';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { Grupo } from '../../model/grupo';
-import { User } from '../../model/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GrupoService {
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore, private firestorage: AngularFireStorage) { }
 
   async get_todos_usuarios_alunos_edit_remover(arrayIntegrantes: string[], idUser: string) {
     let usuariosAlunos: any[] = [];
@@ -213,10 +213,15 @@ export class GrupoService {
     return newMensagem;
   }
 
-  enviarMensagem(idGrupo: String, msg: Mensagem) {
-    this.firestore
+  async enviarMensagem(idGrupo: String, msg: Mensagem) {
+    let uidMensagem = "";
+    await this.firestore
       .collection(`/Grupos/${idGrupo}/mensagens/`)
-      .add(msg);
+      .add(msg).then((doc) => {
+        uidMensagem = doc.id
+      });
+
+    return uidMensagem;
   }
 
   /*update_grupo : atualiza o registro pegando o ID e chamando o método de atualização */
@@ -226,6 +231,17 @@ export class GrupoService {
   /*delete_grupo : chama o método de exclusão  ao registrar o ID*/
   delete_grupo(idGrupo) {
     this.firestore.doc(`/Grupos/${idGrupo}`).delete();
+  }
+
+
+  async enviar_arquivo(file, uidMensage, uidGrupo) {
+
+    let uploadMetadata = await this.firestorage.upload(`arquivosGrupo/${uidGrupo}/${uidMensage}/images/`, file);
+    return uploadMetadata;
+  }
+
+  update_mensageWithFile(uidMensage, editedMensage, uidGrupo) {
+    this.firestore.doc(`/Grupos/${uidGrupo}/mensagens/${uidMensage}/`).update(editedMensage);
   }
 
 }
