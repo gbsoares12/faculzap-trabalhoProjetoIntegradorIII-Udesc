@@ -68,6 +68,8 @@ MIT
 
 @angular/fire/firestore
 
+@angular/fire/storage
+
 @angular/forms
 MIT
 
@@ -336,6 +338,9 @@ Apache-2.0
 @firebase/logger
 Apache-2.0
 
+@firebase/storage
+Apache-2.0
+
 @firebase/util
 Apache-2.0
 
@@ -481,6 +486,8 @@ firebase/auth
 firebase/database
 
 firebase/firestore
+
+firebase/storage
 
 flag-icon-css
 MIT
