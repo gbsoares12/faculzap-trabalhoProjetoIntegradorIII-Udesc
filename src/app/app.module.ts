@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,7 +11,6 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import {ToastModule} from 'primeng/toast';
-
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -79,6 +79,7 @@ import { OpenFileComponent } from './views/chat/open-file/open-file.component';
     AngularFireAuthModule,
     ToastModule,
     AngularFireStorageModule,
+    HttpClientModule
   ],
   declarations: [
     AppComponent,

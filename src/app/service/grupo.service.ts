@@ -142,31 +142,33 @@ export class GrupoService {
       await querySnapshot.forEach((docSnapshot) => {
         if (!docSnapshot.empty) {
           docSnapshot.forEach((evento) => {
+            console.log(evento.data());
             eventos = [...eventos, {
-              "start": new Date(evento.data().data_inicio["seconds"] * 1000),
-              "end": new Date(evento.data().data_fim["seconds"] * 1000),
+              "start": new Date(evento.data().data_inicio),
+              "end": new Date(evento.data().data_fim),
               "title": evento.data().nome,
             }]
           })
         }
       })
     }
+    
     return eventos;
   }
 
-  create_grupo(grupo): boolean {
-    this.firestore
+  async create_grupo(grupo) {
+    let uidGrupoCriado: string;
+    await this.firestore
       .collection("/Grupos/")
       .add(grupo).then((resultSnapshot) => {
-        resultSnapshot.get().then((resultDocument) => {
-          if (resultDocument.exists) {
-            return true;
-          } else {
-            return false;
-          }
-        })
+        if (resultSnapshot) {
+          uidGrupoCriado = resultSnapshot.id;
+        } else {
+          uidGrupoCriado = "";
+        }
       });
-    return false;
+
+    return uidGrupoCriado;
   }
 
 
@@ -242,6 +244,19 @@ export class GrupoService {
 
   update_mensageWithFile(uidMensage, editedMensage, uidGrupo) {
     this.firestore.doc(`/Grupos/${uidGrupo}/mensagens/${uidMensage}/`).update(editedMensage);
+  }
+
+  enviarCalendario(idGrupo: String, arrayEventos: []) {
+    arrayEventos.forEach((evento: any) => {
+      let newEvento = {
+        "data_fim": evento.data_fim,
+        "data_inicio": evento.data_inicio,
+        "nome": evento.titulo
+      }
+      this.firestore
+        .collection(`/Grupos/${idGrupo}/diciplina/`)
+        .add(newEvento)
+    })
   }
 
 }

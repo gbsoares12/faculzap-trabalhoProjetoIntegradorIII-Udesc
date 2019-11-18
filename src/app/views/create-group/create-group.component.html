@@ -35,8 +35,15 @@
                                             </p-header>
                                         </p-listbox>
                                     </div>
+                                    <div style="margin-top: 10px;" class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="pi pi-calendar"></i></span>
+                                        </div>
+                                        <input type="text" #urlCalendar class="form-control"
+                                            placeholder="Url Calendário Moodle" required>
+                                    </div>
                                 </div>
-                                <button style="margin-top: 10px;" type="button" (click)='criarGrupo(titulo.value)'
+                                <button style="margin-top: 10px;" type="button" (click)='criarGrupo(titulo.value, urlCalendar.value)'
                                     class="btn btn-block btn-success">Criar Grupo</button>
                             </form>
                         </div>

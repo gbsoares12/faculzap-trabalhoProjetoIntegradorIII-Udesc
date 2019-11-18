@@ -1,3 +1,4 @@
+import { CalendarApiService } from './../../service/calendar-api.service';
 import { Component, OnInit } from '@angular/core';
 import { GrupoService } from '../../service/grupo.service';
 import { User } from '../../../model/user';
@@ -18,17 +19,21 @@ export class CreateGroupComponent implements OnInit {
   }
   currentUser: User;
   titulo: string;
+  urlCalendar: string;
   router: Router;
   alunos: any[] = [];
   selectedAlunos: any[];
   professores: any[] = [];
   selectedProfessores: any[];
-  constructor(private grupoService: GrupoService, router: Router, private messageService: MessageService) {
+  constructor(private grupoService: GrupoService, 
+    router: Router, 
+    private messageService: MessageService,
+    private calendarService: CalendarApiService) {
     this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
     this.router = router;
   }
 
-  criarGrupo(titulo: string) {
+  async criarGrupo(titulo: string, urlCalendar: string) {
     if (titulo.length < 6) {
       this.showError();
     } else {
@@ -51,10 +56,13 @@ export class CreateGroupComponent implements OnInit {
         usuarios: arrayUsuariosAlunos,
         criador: this.currentUser.uid
       };
-      this.grupoService.create_grupo(newGrupo);
+      let uidGrupo = await this.grupoService.create_grupo(newGrupo);
+      await this.calendarService.getEventosCalendarioMoodle(urlCalendar, uidGrupo);
+      
       this.router.navigate(['/dashboard']);
       this.showSuccess();
     }
+    
   }
 
 

@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { User } from '../../../model/user';
 import { GrupoService } from '../../service/grupo.service';
 import { Grupo } from '../../../model/grupo';
+import { CalendarApiService } from '../../service/calendar-api.service';
 
 @Component({
   selector: 'app-edit-group',
@@ -35,7 +36,9 @@ export class EditGroupComponent implements OnInit {
   constructor(private router: ActivatedRoute,
     private grupoService: GrupoService,
     private messageService: MessageService,
-    routers: Router) {
+    routers: Router,
+    private calendarService: CalendarApiService) {
+
     this.router.params.subscribe(res => this.idGrupoAtivo = res.idGrupo);
     this.currentUser = JSON.parse(sessionStorage.getItem('userSession'));
     this.routerNavigation = routers
@@ -72,7 +75,7 @@ export class EditGroupComponent implements OnInit {
 
     return arrayUsuariosAlunos;
   }
-  editarGrupo(titulo: string) {
+  editarGrupo(titulo: string, urlCalendar: string) {
 
     if (titulo.length < 6) {
       this.showError();
@@ -143,6 +146,7 @@ export class EditGroupComponent implements OnInit {
         criador: this.currentUser.uid
       };
       this.grupoService.update_grupo(this.idGrupoAtivo, newGrupo);
+      this.calendarService.getEventosCalendarioMoodle(urlCalendar, this.idGrupoAtivo);
       this.routerNavigation.navigate(['/dashboard']);
       this.showSuccess();
     }
@@ -155,4 +159,5 @@ export class EditGroupComponent implements OnInit {
   showError() {
     this.messageService.add({ severity: 'error', summary: 'Insira um titulo corretamente!', detail: 'Erro ao criar grupo.' });
   }
+  
 }
